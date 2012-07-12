@@ -1,23 +1,12 @@
 package objects.common;
 
-public abstract class Actor extends MapItem 
+/**
+ * Represents a sentient being of some sort on the map
+ *TODO: Actual Implementation
+ * @author Llama
+ *
+ */
+public class Actor extends MapItem 
 {
-	private int id;
-	
-	/**
-	 * Represent a Unique Id for this Actor
-	 * @return
-	 */
-	public int getId() {
-		return id;
-	}
 
-	/**
-	 * Sets a Unique Id for this Actor
-	 * @param id
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
-	
 }

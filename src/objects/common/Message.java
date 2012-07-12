@@ -6,7 +6,13 @@ public class Message
 {
 	private MessageType type;
 	private String messageContents;
-	private Action confimAction;
+	
+	public Message(MessageType type, String contents)
+	{
+		this.type = type;
+		this.messageContents = contents;
+		
+	}
 	
 	/**
 	 * Represents the type of the Message
@@ -36,21 +42,6 @@ public class Message
 	public void setMessageContents(String messageContents) {
 		this.messageContents = messageContents;
 	}
-	/**
-	 * For Messages which require a confirmation, this is the action which will occur if yes is chosen
-	 * @return
-	 */
-	public Action getConfimAction() {
-		return confimAction;
-	}
-	/**
-	 * For Messages which require a confirmation, sets the action which will occur if yes is chosen
-	 * @param confimAction
-	 */
-	public void setConfimAction(Action confimAction) {
-		this.confimAction = confimAction;
-	}
-	
 	
 	
 }

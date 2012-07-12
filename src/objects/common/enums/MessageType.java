@@ -3,8 +3,7 @@ package objects.common.enums;
 public enum MessageType 
 {
 	EMPTY,
-	TOASTER,
+	TOAST,
 	LOG,
-	MODAL,
-	MODAL_WITH_CONFIRM,
+	MODAL
 }

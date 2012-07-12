@@ -1,172 +1,191 @@
 package objects.common;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import objects.common.enums.ActionType;
+import objects.common.enums.MapItemType;
 import objects.common.enums.MessageType;
 
 /**
- * Represents all items which may be displayed on the local or world map
+ * Represents an item displayed on the map.
+ * Unless there is the express need to override the functions, use this class for all map items.
  * @author Llama
  *
  */
-public abstract class MapItem 
+public class MapItem 
 {
-	private int xCoordinate;
-	private int yCoordinate;
-	private int zCoordinate;
 	private String name;
 	private String graphic;
-	private boolean walkable;
-	private MapTile tile;
+	private MapItemType itemType;
+	private long globalId;
+	private long localId;
+	private Coordinate position;	
+	private ArrayList<ActionType> supportedActions = new ArrayList<ActionType>();
+	private Boolean isWalkable;
 	
 	/**
-	 * Performs a Particular Action on this Item and gets a Message
-	 * @param action
-	 * @return
-	 */
-	public abstract Message performAction(Action action);
-	
-	/**
-	 * Shows a list of Actions which this Item an support 
-	 * @return
-	 */
-	public abstract List<ActionType> showSupportedActions();
-	
-	/**
-	 * Examines this particular item
-	 * @param actor
-	 * @return
-	 */
-	public Message examine ()
-	{
-		Message message = new Message();
-		message.setType(MessageType.TOASTER);
-		message.setMessageContents(name);
-		
-		return message;
-	}
-	
-	/**
-	 * Uses the particular item
-	 * @return
-	 */
-	public Message use()
-	{
-		Message message = new Message();
-		message.setType(MessageType.EMPTY);
-		return message;
-	}
-	
-	
-	
-	/***
-	 * Returns the X Coordinate of this Item
-	 * @return
-	 */
-	public int getxCoordinate() {
-		return xCoordinate;
-	}
-
-	/**
-	 * Sets the X Coordinate of this item
-	 * @param xCoordinate
-	 */
-	public void setxCoordinate(int xCoordinate) {
-		this.xCoordinate = xCoordinate;
-	}
-	/**
-	 * Returns the Y Coordinate of this Item
-	 * @return
-	 */
-	public int getyCoordinate() {
-		return yCoordinate;
-	}
-
-	/**
-	 * Sets the Y Coordinate of this Item
-	 * @param yCoordinate
-	 */
-	public void setyCoordinate(int yCoordinate) {
-		this.yCoordinate = yCoordinate;
-	}
-
-	/***
-	 * Gets the Z Coordinate of this Item
-	 * @return
-	 */
-	public int getzCoordinate() {
-		return zCoordinate;
-	}
-	/***
-	 * Sets the Z Coordinate of this item
-	 * @param zCoordinate
-	 */
-	public void setzCoordinate(int zCoordinate) {
-		this.zCoordinate = zCoordinate;
-	}
-
-	/**
-	 * Returns the Name of the Item
+	 * Gets the Name of this Map Item. This is what is shown when you examine it
 	 * @return
 	 */
 	public String getName() {
 		return name;
 	}
-
-	/**
-	 * Sets the Name of the Item
+	/***
+	 * Sets the name of this Map Item. This is what is shown when you examine it.
 	 * @param name
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-
 	/**
-	 * Gets the Graphic which represents the Item
+	 * Gets the Graphic of this Map Item. This is what is displayed by the Interface
 	 * @return
 	 */
 	public String getGraphic() {
 		return graphic;
 	}
-
 	/**
-	 * Sets the Graphic which will be used to represent the item
+	 * Sets the Graphic of the Map Item. This is what is displayed by the Interface
 	 * @param graphic
 	 */
 	public void setGraphic(String graphic) {
 		this.graphic = graphic;
 	}
 	/**
-	 * Can this item be walked on?
+	 * Determines the type of the Item. 
 	 * @return
 	 */
-	public boolean isWalkable() {
-		return walkable;
+	public MapItemType getItemType() {
+		return itemType;
 	}
 	/**
-	 * Sets whether the item can be walked on or not
-	 * @param walkable
+	 * Sets the type of the Item
+	 * @param itemType
 	 */
-	public void setWalkable(boolean walkable) {
-		this.walkable = walkable;
+	public void setItemType(MapItemType itemType) {
+		this.itemType = itemType;
 	}
-
 	/**
-	 * Represents the tile this item is standing on. If this item is a tile doesn't need to be considered
+	 * The Global Id for this item. This is useful for Global Map locations and Actors
 	 * @return
 	 */
-	public MapTile getTile() {
-		return tile;
+	public long getGlobalId() {
+		return globalId;
 	}
-
 	/**
-	 * Sets the tile this item is standing on. if this item is a tile it doesn't need to be used.
-	 * @param tile
+	 * Sets the Global Id for this item. This is useful for Global Map locations and Actors.
+	 * @param globalId
 	 */
-	public void setTile(MapTile tile) {
-		this.tile = tile;
+	public void setGlobalId(long globalId) {
+		this.globalId = globalId;
 	}
+	/**
+	 * Sets the Local Id for this item. This is how the item will be referred to within the map.
+	 * @return
+	 */
+	public long getLocalId() {
+		return localId;
+	}
+	/**
+	 * Sets the Local Id for this item. This is how the item will be referred to within the map.
+	 * @param localId
+	 */
+	public void setLocalId(long localId) {
+		this.localId = localId;
+	}
+	/**
+	 * Determines the exact position on the map for this item
+	 * @return
+	 */
+	public Coordinate getPosition() {
+		return position;
+	}
+	/**
+	 * Determines the exact position on the map for this item
+	 * @param position
+	 */
+	public void setPosition(Coordinate position) {
+		this.position = position;
+	}
+	/**
+	 * Gets the list of Supported Actions. Default implementation makes no distinction for the actual actor
+	 * @return
+	 */
+	public ArrayList<ActionType> getSupportedActions(Actor actor) {
+		return supportedActions;
+	}
+	/**
+	 * Sets the list of Supported Actions which may be done upon this item.
+	 * @param supportedActions
+	 */
+	public void setSupportedActions(ArrayList<ActionType> supportedActions) {
+		this.supportedActions = supportedActions;
+	}
+	/**
+	 * Determines whether this item may be walked upon
+	 * @return
+	 */
+	public Boolean getIsWalkable() {
+		return isWalkable;
+	}
+	/**
+	 * Sets whether this item may be walked upon
+	 * @param isWalkable
+	 */
+	public void setIsWalkable(Boolean isWalkable) {
+		this.isWalkable = isWalkable;
+	}
+	
+	/**
+	 * Performs a particular action upon this item. Note that not all items support all action types, and you should check using getSupportedActions
+	 * @param actionType The type of action to be performed
+	 * @param actor The actor which is performing this action
+	 * @param parameters Action-specific parameters. See documentation for each ActionType for more details
+	 * @return A list of messages (possibly an empty list)
+	 */
+	public List<Message> performAction(ActionType actionType,Actor actor,Map<String,String> parameters)
+	{
+		ArrayList<Message> messages = new ArrayList<Message>();
+		
+		if (!supportedActions.contains(actionType))
+		{
+			//Error message
+			messages.add(new Message(MessageType.MODAL,"Error: Action not supported on this type"));
+			return messages;
+		}
+		
+		//TODO: Expand for the rest
+		switch (actionType)
+		{
+			case EXAMINE:
+						messages.add(new Message(MessageType.TOAST,getName()));
+			
+			case WALK:
+						//first, is it possible to walk upon this item?
+						if (getIsWalkable())
+						{
+							//Are they 1 square away ? (Diagonals included)
+							if (getPosition().displacement(actor.getPosition())<1.5)
+							{
+								actor.setPosition(this.getPosition());
+							}
+							
+						}
+						else 
+						{	//can't walk there
+							return messages;
+						}
+		
+		}
+		
+		return messages;
+	}
+	
+	
+	
+	
 	
 	
 }

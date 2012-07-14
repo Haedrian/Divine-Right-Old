@@ -31,7 +31,7 @@ public class Coordinate
 	}
 	
 	/***
-	 * Returns the DISPLACEMENT in x and y between this coordinate and the other coordinate
+	 * Returns the DISPLACEMENT in x,y and z between this coordinate and the other coordinate
 	 * @param c2 The coordinate to compare
 	 * @return
 	 */
@@ -39,8 +39,8 @@ public class Coordinate
 	{
 		int deltaX = Math.abs(this.getX() - c2.getX());
 		int deltaY = Math.abs(this.getY() - c2.getY());
+		int deltaZ = Math.abs(this.getX() - c2.getX());
 		
-		return Math.sqrt((deltaX*deltaX) + (deltaY*deltaY));
-		
+		return Math.sqrt((deltaX*deltaX) + (deltaY*deltaY) + (deltaZ*deltaZ));
 	}
 }

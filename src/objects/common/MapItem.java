@@ -16,14 +16,14 @@ import objects.common.enums.MessageType;
  */
 public class MapItem 
 {
-	private String name;
-	private String graphic;
-	private MapItemType itemType;
-	private long globalId;
-	private long localId;
-	private Coordinate position;	
-	private ArrayList<ActionType> supportedActions = new ArrayList<ActionType>();
-	private Boolean isWalkable;
+	protected String name;
+	protected String graphic;
+	protected MapItemType itemType;
+	protected long globalId;
+	protected long localId;
+	protected Coordinate position;	
+	protected ArrayList<ActionType> supportedActions = new ArrayList<ActionType>();
+	protected Boolean isWalkable;
 	
 	/**
 	 * Gets the Name of this Map Item. This is what is shown when you examine it

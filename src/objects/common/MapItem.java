@@ -165,20 +165,7 @@ public class MapItem
                             messages = examine(actionType,actor,parameters);
                 
                 case WALK:
-                            //first, is it possible to walk upon this item?
-                            if (getIsWalkable())
-                            {
-                                //Are they 1 square away ? (Diagonals included)
-                                if (getPosition().displacement(actor.getPosition())<1.5)
-                                {
-                                    actor.setPosition(this.getPosition());
-                                }
-                                
-                            }
-                            else 
-                            {	//can't walk there
-                                return messages;
-                            }
+                            
             
             }
         } catch (ActionTypeMismatchException atme) {
@@ -189,9 +176,12 @@ public class MapItem
 		return messages;
 	}
 
-    protected void logException(Exception e) {
+    protected void logException(Exception e) 
+    {
         System.out.println(e.toString());
-        for (StackTraceElement stackTraceElement: e.getStackTrace()){
+        
+        for (StackTraceElement stackTraceElement: e.getStackTrace())
+        {
             System.out.println(stackTraceElement.toString());
         }
     }
@@ -202,6 +192,29 @@ public class MapItem
         }
         List<Message> ret = new ArrayList<Message>();
         ret.add(new Message(MessageType.TOAST,getName()));
+        return ret;
+    }
+    
+    protected List<Message> walkOn(ActionType actionType,Actor actor,Map<String,String> parameters) throws ActionTypeMismatchException
+    {
+    	ArrayList<Message> ret = new ArrayList<Message>();
+    	
+    	//first, is it possible to walk upon this item?
+        if (getIsWalkable())
+        {
+            //Are they 1 square away ? (Diagonals included)
+            if (getPosition().displacement(actor.getPosition())<1.5)
+            {
+            	//TODO: USE MANAGER
+                actor.setPosition(this.getPosition());
+            }
+            
+        }
+        else 
+        {	//can't walk there
+            
+        }
+    	
         return ret;
     }
 	

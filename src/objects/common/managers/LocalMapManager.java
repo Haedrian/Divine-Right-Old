@@ -7,6 +7,7 @@ import java.util.HashMap;
  * Date: 14/07/12
  * Time: 13:45
  */
-public class LocalMapManager {
-
+public class LocalMapManager 
+{
+	
 }

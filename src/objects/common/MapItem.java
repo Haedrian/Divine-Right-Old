@@ -7,6 +7,7 @@ import java.util.Map;
 import objects.common.enums.ActionType;
 import objects.common.enums.MapItemType;
 import objects.common.enums.MessageType;
+import objects.common.exceptions.ActionTypeMismatchException;
 
 /**
  * Represents an item displayed on the map.
@@ -147,7 +148,7 @@ public class MapItem
 	 */
 	public List<Message> performAction(ActionType actionType,Actor actor,Map<String,String> parameters)
 	{
-		ArrayList<Message> messages = new ArrayList<Message>();
+		List<Message> messages = new ArrayList<Message>();
 		
 		if (!supportedActions.contains(actionType))
 		{
@@ -155,33 +156,54 @@ public class MapItem
 			messages.add(new Message(MessageType.MODAL,"Error: Action not supported on this type"));
 			return messages;
 		}
-		
+
+
 		//TODO: Expand for the rest
-		switch (actionType)
-		{
-			case EXAMINE:
-						messages.add(new Message(MessageType.TOAST,getName()));
-			
-			case WALK:
-						//first, is it possible to walk upon this item?
-						if (getIsWalkable())
-						{
-							//Are they 1 square away ? (Diagonals included)
-							if (getPosition().displacement(actor.getPosition())<1.5)
-							{
-								actor.setPosition(this.getPosition());
-							}
-							
-						}
-						else 
-						{	//can't walk there
-							return messages;
-						}
-		
-		}
+        try {
+            switch (actionType) {
+                case EXAMINE:
+                            messages = examine(actionType,actor,parameters);
+                
+                case WALK:
+                            //first, is it possible to walk upon this item?
+                            if (getIsWalkable())
+                            {
+                                //Are they 1 square away ? (Diagonals included)
+                                if (getPosition().displacement(actor.getPosition())<1.5)
+                                {
+                                    actor.setPosition(this.getPosition());
+                                }
+                                
+                            }
+                            else 
+                            {	//can't walk there
+                                return messages;
+                            }
+            
+            }
+        } catch (ActionTypeMismatchException atme) {
+            
+            //do nothing;
+        }
 		
 		return messages;
 	}
+
+    protected void logException(Exception e) {
+        System.out.println(e.toString());
+        for (StackTraceElement stackTraceElement: e.getStackTrace()){
+            System.out.println(stackTraceElement.toString());
+        }
+    }
+
+    protected List<Message> examine (ActionType actionType,Actor actor,Map<String,String> parameters) throws ActionTypeMismatchException {
+        if (!actionType.equals(ActionType.EXAMINE)) {
+            throw new ActionTypeMismatchException("action should be " + actionType.toString());
+        }
+        List<Message> ret = new ArrayList<Message>();
+        ret.add(new Message(MessageType.TOAST,getName()));
+        return ret;
+    }
 	
 	
 	

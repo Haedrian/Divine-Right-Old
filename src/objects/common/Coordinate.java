@@ -11,6 +11,19 @@ public class Coordinate
 	private int y;
 	private int z;
 	
+	public Coordinate()
+	{
+		
+		
+	}
+	
+	public Coordinate(int x, int y, int z)
+	{
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+	
 	public int getX() {
 		return x;
 	}
@@ -42,5 +55,13 @@ public class Coordinate
 		int deltaZ = Math.abs(this.getX() - c2.getX());
 		
 		return Math.sqrt((deltaX*deltaX) + (deltaY*deltaY) + (deltaZ*deltaZ));
+	}
+	
+	/**
+	 * Used for debugging purposes
+	 */
+	public String toString()
+	{
+		return "("+this.x+"," + this.y + "," + this.z +")";
 	}
 }

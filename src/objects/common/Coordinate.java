@@ -1,7 +1,12 @@
 package objects.common;
 
+import objects.common.managers.LocalMapManager;
+
+import java.util.HashMap;
+import java.util.List;
+
 /**
- * Represents a Coordinate
+ * Represents a Coordinate for MapItem, Actor - NOT Tile;
  * @author Llama
  *
  */
@@ -10,21 +15,14 @@ public class Coordinate
 	private int x;
 	private int y;
 	private int z;
-	
-	public Coordinate()
-	{
-		
-		
-	}
-	
-	public Coordinate(int x, int y, int z)
-	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
-	
-	public int getX() {
+
+    public Coordinate(int x, int y, int z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    public int getX() {
 		return x;
 	}
 	public void setX(int x) {
@@ -56,12 +54,12 @@ public class Coordinate
 		
 		return Math.sqrt((deltaX*deltaX) + (deltaY*deltaY) + (deltaZ*deltaZ));
 	}
-	
-	/**
-	 * Used for debugging purposes
-	 */
-	public String toString()
-	{
-		return "("+this.x+"," + this.y + "," + this.z +")";
-	}
+
+    public int hashCode() {
+        return hashCode(x,y,z);
+    }
+    
+    protected int hashCode(int x, int y, int z) {
+        return x + 1000*y + 100000*z;
+    }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import objects.common.enums.ActionType;
+import objects.common.enums.PhysicalActionType;
 import objects.common.enums.MapItemType;
 import objects.common.enums.MessageType;
 import objects.common.exceptions.ActionTypeMismatchException;
@@ -23,7 +23,7 @@ public class MapItem
 	protected long globalId;
 	protected long localId;
 	protected Coordinate position;	
-	protected ArrayList<ActionType> supportedActions = new ArrayList<ActionType>();
+	protected ArrayList<PhysicalActionType> supportedPhysicalActions = new ArrayList<PhysicalActionType>();
 	protected Boolean isWalkable;
 	
 	/**
@@ -114,15 +114,15 @@ public class MapItem
 	 * Gets the list of Supported Actions. Default implementation makes no distinction for the actual actor
 	 * @return
 	 */
-	public ArrayList<ActionType> getSupportedActions(Actor actor) {
-		return supportedActions;
+	public ArrayList<PhysicalActionType> getSupportedActions(Actor actor) {
+		return supportedPhysicalActions;
 	}
 	/**
 	 * Sets the list of Supported Actions which may be done upon this item.
-	 * @param supportedActions
+	 * @param supportedPhysicalActions
 	 */
-	public void setSupportedActions(ArrayList<ActionType> supportedActions) {
-		this.supportedActions = supportedActions;
+	public void setSupportedPhysicalActions(ArrayList<PhysicalActionType> supportedPhysicalActions) {
+		this.supportedPhysicalActions = supportedPhysicalActions;
 	}
 	/**
 	 * Determines whether this item may be walked upon
@@ -141,16 +141,16 @@ public class MapItem
 	
 	/**
 	 * Performs a particular action upon this item. Note that not all items support all action types, and you should check using getSupportedActions
-	 * @param actionType The type of action to be performed
+	 * @param physicalActionType The type of action to be performed
 	 * @param actor The actor which is performing this action
-	 * @param parameters Action-specific parameters. See documentation for each ActionType for more details
+	 * @param parameters Action-specific parameters. See documentation for each PhysicalActionType for more details
 	 * @return A list of messages (possibly an empty list)
 	 */
-	public List<Message> performAction(ActionType actionType,Actor actor,Map<String,String> parameters)
+	public List<Message> performAction(PhysicalActionType physicalActionType,Actor actor,Map<String,String> parameters)
 	{
 		List<Message> messages = new ArrayList<Message>();
 		
-		if (!supportedActions.contains(actionType))
+		if (!supportedPhysicalActions.contains(physicalActionType))
 		{
 			//Error message
 			messages.add(new Message(MessageType.MODAL,"Error: Action not supported on this type"));
@@ -160,9 +160,9 @@ public class MapItem
 
 		//TODO: Expand for the rest
         try {
-            switch (actionType) {
+            switch (physicalActionType) {
                 case EXAMINE:
-                            messages = examine(actionType,actor,parameters);
+                            messages = examine(physicalActionType,actor,parameters);
                 
                 case WALK:
                             
@@ -186,16 +186,16 @@ public class MapItem
         }
     }
 
-    protected List<Message> examine (ActionType actionType,Actor actor,Map<String,String> parameters) throws ActionTypeMismatchException {
-        if (!actionType.equals(ActionType.EXAMINE)) {
-            throw new ActionTypeMismatchException("action should be " + actionType.toString());
+    protected List<Message> examine (PhysicalActionType physicalActionType,Actor actor,Map<String,String> parameters) throws ActionTypeMismatchException {
+        if (!physicalActionType.equals(PhysicalActionType.EXAMINE)) {
+            throw new ActionTypeMismatchException("action should be " + physicalActionType.toString());
         }
         List<Message> ret = new ArrayList<Message>();
         ret.add(new Message(MessageType.TOAST,getName()));
         return ret;
     }
     
-    protected List<Message> walkOn(ActionType actionType,Actor actor,Map<String,String> parameters) throws ActionTypeMismatchException
+    protected List<Message> walkOn(PhysicalActionType physicalActionType,Actor actor,Map<String,String> parameters) throws ActionTypeMismatchException
     {
     	ArrayList<Message> ret = new ArrayList<Message>();
     	

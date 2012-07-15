@@ -6,11 +6,12 @@ import java.util.Map;
 import objects.common.Coordinate;
 import objects.common.GUIObject;
 import objects.common.MapItem;
-import objects.common.Message;
-import objects.common.enums.ActionType;
 import objects.common.enums.MapOverlay;
 import objects.common.enums.MapType;
+import objects.common.enums.PhysicalActionType;
 import objects.common.exceptions.ItemNotFoundException;
+import objects.common.messages.GUIResponse;
+import objects.common.messages.Message;
 
 /**
  * This class handles all communication between the GUI and the engine. All GUI requests and responses must pass through it
@@ -66,7 +67,7 @@ public class GUICommunicationManager
 	 * @param mapType The map we're talking about
 	 * @return A list of messages to be displayed to the user
 	 */
-	public List<Message> PerformAction(long targetId,ActionType action,Map<String,String> parameters,MapType mapType)
+	public List<Message> PerformAction(long targetId,PhysicalActionType action,Map<String,String> parameters,MapType mapType)
 	{
 		try
 		{

@@ -1,11 +1,18 @@
 package objects.common.messages;
 
-import objects.common.enums.MessageType;
+import java.util.LinkedList;
 
+import objects.common.enums.MessageType;
+/**
+ * A message which is sent to the user
+ * @author Llama
+ *
+ */
 public class Message 
 {
 	private MessageType type;
 	private String messageContents;
+	private LinkedList<GUIActionChoice> consequences = new LinkedList<GUIActionChoice>();
 	
 	public Message(MessageType type, String contents)
 	{
@@ -41,6 +48,22 @@ public class Message
 	 */
 	public void setMessageContents(String messageContents) {
 		this.messageContents = messageContents;
+	}
+	/**
+	 * Gets the consequences. This is to be used for CHOICE messages only
+	 */
+	public LinkedList<GUIActionChoice> getConsequences()
+	{
+		return consequences;
+	}
+
+	/**
+	 * Sets the consequences. This is to be used for CHOICE messages only
+	 * @param consequences
+	 */
+	public void setConsequences(LinkedList<GUIActionChoice> consequences)
+	{
+		this.consequences = consequences;
 	}
 	
 	

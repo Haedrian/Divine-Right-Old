@@ -2,7 +2,7 @@ package objects.common;
 
 import java.util.List;
 
-import objects.common.enums.ActionType;
+import objects.common.enums.PhysicalActionType;
 
 /**
  * Represents an object which is to be displayed by the GUI
@@ -15,11 +15,11 @@ public class GUIObject
 	protected String tileGraphic = "";
 	protected String topMapItemGraphic = "";
 	protected long id;
-	protected List<ActionType> possibleActions;
+	protected List<PhysicalActionType> possibleActions;
 	
 	
 	
-	public GUIObject(Coordinate coordinate, long id, String tileGraphic, String topMapItemGraphic,List<ActionType> possibleActions)
+	public GUIObject(Coordinate coordinate, long id, String tileGraphic, String topMapItemGraphic,List<PhysicalActionType> possibleActions)
 	{
 		this.coordinate = coordinate;
 		this.id = id;
@@ -75,7 +75,7 @@ public class GUIObject
 	 * Returns the list of possible actions to be performed upon this Object by the player character
 	 * @return
 	 */
-	public List<ActionType> getPossibleActions()
+	public List<PhysicalActionType> getPossibleActions()
 	{
 		return possibleActions;
 	}

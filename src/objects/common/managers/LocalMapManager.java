@@ -16,6 +16,7 @@ import java.util.List;
 public class LocalMapManager {
 
     protected static HashMap<Coordinate,Tile> localMap = new HashMap<Coordinate, Tile>();
+    
 
 
     public static HashMap<Coordinate, Tile> getLocalMap() {

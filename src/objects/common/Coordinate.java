@@ -22,7 +22,12 @@ public class Coordinate
         this.z = z;
     }
 
-    public int getX() {
+    public Coordinate()
+	{
+		// TODO Auto-generated constructor stub
+	}
+
+	public int getX() {
 		return x;
 	}
 	public void setX(int x) {

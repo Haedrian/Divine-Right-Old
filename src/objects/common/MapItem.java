@@ -8,7 +8,6 @@ import objects.common.StringParameters.EngineParameters;
 import objects.common.enums.*;
 import objects.common.exceptions.ActionTypeMismatchException;
 import objects.common.managers.LocalMapManager;
-import objects.common.messages.GUIResponse;
 import objects.common.messages.Message;
 
 /**
@@ -247,35 +246,6 @@ public class MapItem
     
     protected void registerNewPosition(Coordinate oldPosition) {
         //TODO: once map storage methods develop, add position re-registration;
-    }
-
-
-
-    // GUI Actions part
-    
-    
-    public GUIResponse performGUIAction(GUIActionType action, String[] parameters) {
-        switch(action) {
-            case GET_DESCRIPTION: return guiGetDescription(action,parameters);
-        }
-        return new GUIResponse(this.localId,this.graphic,null,null);
-
-    }
-    
-    protected GUIResponse guiGetDescription(GUIActionType action, String[] parameters) {
-        List<String> desc = new ArrayList<String>();
-        desc.add(this.getClass().toString());
-        desc.add(this.name);
-        desc.add(this.itemType.toString());
-        return new GUIResponse(localId,graphic,desc,guiListOfEngineActions());
-    }
-    
-    protected List<String> guiListOfEngineActions() {
-        List<String> ret = new ArrayList<String>(this.supportedPhysicalActions.size());
-        for (PhysicalActionType action: supportedPhysicalActions) {
-            ret.add(action.toString());
-        }
-        return ret;
     }
 
     protected void logException(Exception e) {

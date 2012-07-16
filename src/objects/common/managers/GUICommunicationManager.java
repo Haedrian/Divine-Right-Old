@@ -10,7 +10,6 @@ import objects.common.enums.MapOverlay;
 import objects.common.enums.MapType;
 import objects.common.enums.PhysicalActionType;
 import objects.common.exceptions.ItemNotFoundException;
-import objects.common.messages.GUIResponse;
 import objects.common.messages.Message;
 
 /**

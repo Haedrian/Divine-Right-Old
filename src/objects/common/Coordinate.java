@@ -1,7 +1,5 @@
 package objects.common;
 
-import objects.common.managers.LocalMapManager;
-
 import java.util.HashMap;
 import java.util.List;
 

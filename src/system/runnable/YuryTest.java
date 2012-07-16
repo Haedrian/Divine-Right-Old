@@ -31,6 +31,7 @@ public class YuryTest {
         System.out.println("File Done");
            }catch (Exception e){//Catch exception if any
         	   System.err.println("Error: " + e.getMessage());
+        	   e.printStackTrace();
            }
         }
     

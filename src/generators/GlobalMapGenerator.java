@@ -1,5 +1,6 @@
 package generators;
 
+import objects.common.Coordinate;
 import objects.common.GlobalMapItem;
 import objects.common.Region;
 
@@ -20,22 +21,27 @@ protected int regionflag;
 public GlobalMapGenerator (int regionnumber){
 	regionnumber = 1000;
 	worldregion = new Region[regionnumber +1];
-	for (GlobalMapItem[] mapItemRow : globalmap )
+	
+	for (int i=0; i < worldregion.length; i++)
 	{
-		for (GlobalMapItem mapItem : mapItemRow)
-		{
-			mapItem = new GlobalMapItem();
-			mapItem.setElevation(0);
-			//TODO set climate parameters later
-		}
-		
+		worldregion[i] = new Region();
 	}
+	
+	
+	for (int i=0; i < globalmap.length; i++)
+	{
+		for (int j = 0; j < globalmap[0].length; j++)
+		{
+			globalmap[i][j] = new GlobalMapItem();
+			globalmap[i][j].setElevation(0);
+		}
+	}
+	
    //setting coordinates for GlobalMapItems
 	for (int i = 0; i < WORLDSIZE; i++){
 		for (int j = 0; j < WORLDSIZE; j++){
-			globalmap[i][j].getPosition().setX(i);
-			globalmap[i][j].getPosition().setY(j);
-			globalmap[i][j].getPosition().setZ(0);
+			
+			globalmap[i][j].setPosition(new Coordinate(i,j,0));
 		}
 	}
 	//setting region 0, this is the boarder of the world map
@@ -45,9 +51,7 @@ public GlobalMapGenerator (int regionnumber){
 		worldregion[0].addToRegion(globalmap[i][0]);
 		worldregion[0].addToRegion(globalmap[WORLDSIZE - 1][i]);
 		worldregion[0].addToRegion(globalmap[i][WORLDSIZE-1]);
-		worldregion[0].getCenter().setX(-1);
-		worldregion[0].getCenter().setY(-1);
-		worldregion[0].getCenter().setZ(-1);
+		worldregion[0].setCenter(new Coordinate(-1,-1,-1));
 	}
 	    
     //setting region 0s properties. These will correspond to deep oceans surrounding the game map
@@ -60,16 +64,17 @@ public GlobalMapGenerator (int regionnumber){
 	
 	for (int i = 1; i <= regionnumber; i++)
 	{
-	    worldregion[i].getCenter().setX(random.nextInt(800)+100);
-	    worldregion[i].getCenter().setY(random.nextInt(800)+100);
-	    worldregion[i].getCenter().setZ(0);
+		worldregion[i].setCenter(new Coordinate(random.nextInt(800)+100,random.nextInt(800)+100,0));
 	}
     //populating regions
 	for (int i = 0; i < WORLDSIZE; i++){
 		for(int j = 0; j < WORLDSIZE; j++){
+			
+			System.out.println("Doing tile : " + i + "," + j);
+			
 			if (!globalmap[i][j].getIsInRegion()){
 				double mindistance = WORLDSIZE*WORLDSIZE;
-				for (int iter = 1; i<= regionnumber; iter++){
+				for (int iter = 1; iter<= regionnumber; iter++){
 					double distance = globalmap[i][j].getPosition().displacement(worldregion[iter].getCenter());
 					if (distance <= mindistance){
 						mindistance = distance;
@@ -78,6 +83,7 @@ public GlobalMapGenerator (int regionnumber){
 				 
 				}
 			}
+			
 		  worldregion[regionflag].addToRegion(globalmap[i][j]);
 		}
 	}

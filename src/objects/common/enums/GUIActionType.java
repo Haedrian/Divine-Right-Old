@@ -1,11 +1,12 @@
 package objects.common.enums;
 
 /**
- * User: Yury
- * Date: 14/07/12
- * Time: 18:15
+ * Enum for sending an action directly to the engine.
+ * @author Llama
  */
 public enum GUIActionType {
-    GET_DESCRIPTION,
-    GET_GRAPHIC;
+    SAVE_GLOBAL,
+    LOAD_GAME,
+    GENERATE_WORLD,
+    CONSOLE_ACTION;
 }

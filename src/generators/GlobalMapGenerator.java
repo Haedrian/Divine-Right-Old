@@ -1,5 +1,6 @@
 package generators;
 
+import objects.common.Coordinate;
 import objects.common.GlobalMapItem;
 import objects.common.Region;
 
@@ -33,9 +34,7 @@ public GlobalMapGenerator (int regionnumber){
    //setting coordinates for GlobalMapItems
 	for (int i = 0; i < WORLDSIZE; i++){
 		for (int j = 0; j < WORLDSIZE; j++){
-			globalmap[i][j].getPosition().setX(i);
-			globalmap[i][j].getPosition().setY(j);
-			globalmap[i][j].getPosition().setZ(0);
+			globalmap[i][j].setPosition(new Coordinate(i, j, 0));
 		}
 	}
 	//setting region 0, this is the boarder of the world map
@@ -60,9 +59,8 @@ public GlobalMapGenerator (int regionnumber){
 	
 	for (int i = 1; i <= regionnumber; i++)
 	{
-	    worldregion[i].getCenter().setX(random.nextInt(800)+100);
-	    worldregion[i].getCenter().setY(random.nextInt(800)+100);
-	    worldregion[i].getCenter().setZ(0);
+	    worldregion[i].setCenter(new Coordinate(random.nextInt(800)+100, random.nextInt(800)+100, 0));
+
 	}
     //populating regions
 	for (int i = 0; i < WORLDSIZE; i++){

@@ -4,8 +4,6 @@ import objects.common.GlobalMapItem;
 import objects.common.Region;
 
 import java.util.Random;
-import java.util.ArrayList;
-
 public class GlobalMapGenerator{ 
 
 protected final int WORLDSIZE = 1000;
@@ -70,7 +68,7 @@ public GlobalMapGenerator (int regionnumber){
 	for (int i = 0; i < WORLDSIZE; i++){
 		for(int j = 0; j < WORLDSIZE; j++){
 			if (!globalmap[i][j].getIsInRegion()){
-				double mindistance = WORLDSIZE^4;
+				double mindistance = WORLDSIZE*WORLDSIZE;
 				for (int iter = 1; i<= regionnumber; iter++){
 					double distance = globalmap[i][j].getPosition().displacement(worldregion[iter].getCenter());
 					if (distance <= mindistance){
@@ -92,4 +90,8 @@ public GlobalMapGenerator (int regionnumber){
      }
    //TODO Smoothing
   }
+public GlobalMapItem getGlobalMapItem (int i, int j){
+	return globalmap[i][j];
+}
+
 }

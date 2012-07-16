@@ -3,6 +3,7 @@ package objects.common;
 public class GlobalMapItem extends MapItem {
 
 	protected int elevation;
+	protected boolean IsInRegion = false;
 	//protected ClimateType climatetype;
 	//protected int climate;
 	
@@ -21,4 +22,11 @@ public class GlobalMapItem extends MapItem {
 		this.elevation = elevation;
 	} 
 	
+	public void setIsInRegion(){
+		this.IsInRegion = true;
+	}
+	
+	public boolean getIsInRegion(){
+		return this.IsInRegion;
+	}
 }

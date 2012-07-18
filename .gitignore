@@ -1,10 +1,10 @@
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
 /DivineRight.ipr
 /DivineRight.iws
 /DivineRightG1.iml
+/bin

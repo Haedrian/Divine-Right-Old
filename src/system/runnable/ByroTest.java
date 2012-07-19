@@ -14,9 +14,9 @@ import javax.imageio.ImageIO;
 
 public class ByroTest {
     public static void main(String[] args) {
-      int worldsize = 100;
+      int worldsize = 1000;
   	System.out.println("Generating World");
-  	GlobalMapGenerator worldmap = new GlobalMapGenerator(100, worldsize);
+  	GlobalMapGenerator worldmap = new GlobalMapGenerator(10000, worldsize);
       try{ 
     	System.out.println("Writing File");
     	int width = 1000;

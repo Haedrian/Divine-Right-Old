@@ -80,7 +80,7 @@ public GlobalMapGenerator (int regionnumber, int worldSize){
 		for (int i = 0; i < worldSize; i++){
 			for(int j = 0; j < worldSize; j++){
 				
-				//System.out.println("Doing tile : " + i + "," + j);
+				System.out.println("Doing tile : " + i + "," + j);
 				
 				if (!globalmap[i][j].getIsInRegion()){
 					double mindistance = worldSize*worldSize;

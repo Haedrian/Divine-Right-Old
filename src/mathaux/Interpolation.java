@@ -25,7 +25,7 @@ public class Interpolation {
 		double sum1 = 0;
 		for (int i = 0; i < coorddata.length; i++)
 		{
-		    if (coorddata[i].displacement(point) < worldsize*worldsize)
+		    if (coorddata[i].displacement(point) < 50)
 		    {
 			double sum2 = 0;
 			for (int j=0; j < coorddata.length; j++)

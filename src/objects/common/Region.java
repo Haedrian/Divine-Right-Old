@@ -46,8 +46,19 @@ public Coordinate getCenter() {
 public void setCenter(Coordinate center) {
 	this.center = center;
 }
+ 
+//check if a tile is adjacent to a region. A tile contained in the region is considered adjacent to the region.
+public boolean isANeighbor(GlobalMapItem gmi){
+     return gmi.isANeighbor(this);
+  }
 
-
-
-	
+//check if a region is adjacent to a region, i.e. they have at least 1 pair of adjacent tiles.
+public boolean isANeighbor(Region region){
+	boolean flag = false;
+	for (int i = 0; i < region.getRegion().size(); i++){
+	   flag = flag || this.isANeighbor(region.getRegion().get(i));
+	   if (flag) {break;}
+	}
+	return flag;	
+  }
 }

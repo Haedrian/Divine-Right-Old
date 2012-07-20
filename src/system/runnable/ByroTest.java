@@ -16,7 +16,7 @@ public class ByroTest {
     public static void main(String[] args) {
       int worldsize = 1000;
   	System.out.println("Generating World");
-  	GlobalMapGenerator worldmap = new GlobalMapGenerator(10000, worldsize);
+  	GlobalMapGenerator worldmap = new GlobalMapGenerator(1000, worldsize);
       try{ 
     	System.out.println("Writing File");
     	int width = 1000;
@@ -43,7 +43,7 @@ public class ByroTest {
         	   e.printStackTrace();
            }
     	System.out.println("Smoothing World");
-        worldmap.smoothMap(3);
+        worldmap.smoothMap(2);
           try{
         	System.out.println("Writing File");
         	int width = 1000;
@@ -55,9 +55,11 @@ public class ByroTest {
             for (int i = 0; i < worldsize; i++){
             	for (int j = 0; j < worldsize; j++){
             		int elev = worldmap.getGlobalMapItem(i, j).getElevation();
-            		if (elev <= 0){g2.setColor(new Color(0,0,250 + elev));}
+            		if (elev <=-250) {g2.setColor(new Color(0,0,1));}
+            		else if (elev <= 0){g2.setColor(new Color(0,0,250 + elev));}
             		else if (elev >0 && elev < 80) {g2.setColor(new Color(0,elev,0));}
-            		else if (elev >= 80) {g2.setColor(new Color (elev,elev,elev));}
+            		else if (elev >= 80 && elev < 255) {g2.setColor(new Color (elev,elev,elev));}
+            		else if (elev >=255) {g2.setColor(new Color(255,255,255));}
             		g2.fillRect(i*(1000/worldsize), j*(1000/worldsize), 1000/worldsize, 1000/worldsize);
             	}
             	     

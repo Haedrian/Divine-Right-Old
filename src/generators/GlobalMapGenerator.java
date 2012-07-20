@@ -6,6 +6,7 @@ import objects.common.GlobalMapItem;
 import objects.common.Region;
 
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class GlobalMapGenerator{ 
@@ -72,6 +73,7 @@ public GlobalMapGenerator (int regionnumber, int worldSize){
 			int y = random.nextInt((worldSize-1));
 			if (!globalmap[x][y].getIsInRegion()) {
 				worldregion[i].setCenter(new Coordinate(x,y,0));
+				worldregion[i].addToRegion(globalmap[x][y]);
 				System.out.println ("Region "+i+" has center at "+x+","+y);
 				}
 			else {i = i -1;}
@@ -80,7 +82,7 @@ public GlobalMapGenerator (int regionnumber, int worldSize){
 		for (int i = 0; i < worldSize; i++){
 			for(int j = 0; j < worldSize; j++){
 				
-				System.out.println("Doing tile : " + i + "," + j);
+				//System.out.println("Doing tile : " + i + "," + j);
 				
 				if (!globalmap[i][j].getIsInRegion()){
 					double mindistance = worldSize*worldSize;
@@ -98,8 +100,8 @@ public GlobalMapGenerator (int regionnumber, int worldSize){
 		}
 		//setting random elevations for different regions
 		for (int iter = 1; iter <= regionnumber; iter++){
-			int elev = random.nextInt(150) - 50;
-			System.out.println("Region " + iter + " has elevation "+ elev );
+			int elev = random.nextInt(240) - 80;
+			//System.out.println("Region " + iter + " has size "+ worldregion[iter].getRegion().size() );
 		    for (int i = 0; i < worldregion[iter].getRegion().size(); i++){
 		    	worldregion[iter].getRegion().get(i).setElevation(elev);
 		    }
@@ -112,27 +114,73 @@ public GlobalMapItem getGlobalMapItem (int i, int j){
 }
 
 //smoothing out the map using inverse distance weighting with exponent p.
-  public void smoothMap(int p){
+  public void smoothMap(double p){
 	Interpolation smoother = new Interpolation();
-	Coordinate centers[];
-	double elevations[];
-	centers = new Coordinate[worldregion.length-1];
-	elevations = new double[worldregion.length-1];
+    ArrayList<Coordinate> coorddata = new ArrayList<Coordinate>();
+    ArrayList<Double> resultdata = new ArrayList<Double>();
 	System.out.println(worldregion.length-1);
 	for (int iter = 1; iter < worldregion.length; iter++){
-		centers[iter - 1] = worldregion[iter].getCenter();
-		elevations[iter - 1] = worldregion[iter].getRegion().get(0).getElevation();
+		coorddata.add(iter - 1,worldregion[iter].getCenter());
+		resultdata.add(iter - 1, (double) worldregion[iter].getRegion().get(0).getElevation());
 	}
-	for (int i=0; i < globalmap.length; i++)
+	
+	//smoothing out the edges:
+    for (int i = 0; i < worldregion[0].getRegion().size(); i++){
+    	double cutoff = random.nextDouble();
+    	if (cutoff < 0.01)
+    	{
+    	coorddata.add(worldregion[0].getRegion().get(i).getPosition());
+    	resultdata.add((double) worldregion[0].getRegion().get(i).getElevation());
+    	}
+    	
+    }
+    //adding left coast and right coast to smoothing
+    for (int i= worldSize/30; i < worldSize/10; i++)
 	  {
-		for (int j = 0; j < globalmap[0].length; j++)
+		for (int j = worldSize/30; j < worldSize - worldSize/30; j++)
 		{
-			System.out.println("Smoothing tile "+i+","+j);
-			globalmap[i][j].setElevation((int)Math.round(smoother.inverseDistanceWeighting(centers, elevations, globalmap[i][j].getPosition(), p, worldSize)));
+			double cutoff = random.nextDouble();
+			if (cutoff < 0.001 ){
+				coorddata.add(globalmap[i][j].getPosition());
+				resultdata.add((double) globalmap[i][j].getElevation());
+			}
+			cutoff = random.nextDouble();
+			if (cutoff < 0.001 ){
+				coorddata.add(globalmap[worldSize - i][j].getPosition());
+				resultdata.add((double) globalmap[worldSize - i][j].getElevation());
+			}
+		}
+	
+     
+      }
+    //adding top and bottom coast to smoothing
+    for (int i= worldSize/30; i < worldSize - worldSize/30; i++)
+	  {
+		for (int j = worldSize/30; j < worldSize/10; j++)
+		{
+			double cutoff = random.nextDouble();
+			if (cutoff < 0.001 ){
+				coorddata.add(globalmap[i][j].getPosition());
+				resultdata.add((double) globalmap[i][j].getElevation());
+			}
+			cutoff = random.nextDouble();
+			if (cutoff < 0.001 ){
+				coorddata.add(globalmap[i][worldSize - j].getPosition());
+				resultdata.add((double) globalmap[i][worldSize - j].getElevation());
+			}
 		}
 	  }
-     
+    Coordinate[] coordarray = coorddata.toArray(new Coordinate[coorddata.size()]);
+    Double[] resultarray = resultdata.toArray(new Double[resultdata.size()]);
+    for (int i= worldSize/30; i < globalmap.length - worldSize/30; i++)
+	  {
+		for (int j = worldSize/30; j < globalmap[0].length - worldSize/30; j++)
+		{
+			System.out.println("Smoothing tile "+i+","+j);
+			globalmap[i][j].setElevation((int)Math.round(smoother.inverseDistanceWeighting(coordarray, resultarray, globalmap[i][j].getPosition(), p, worldSize)));
+		}
+	  }
+    
   }
-
 
 }

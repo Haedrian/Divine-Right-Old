@@ -1,4 +1,4 @@
-package objects.common.managers;
+package managers;
 
 import java.util.List;
 import java.util.Map;

@@ -1,5 +1,6 @@
 package objects.common;
 
+import java.awt.Window.Type;
 import java.util.HashMap;
 import java.util.List;
 
@@ -64,5 +65,29 @@ public class Coordinate
     
     protected int hashCode(int x, int y, int z) {
         return x + 1000*y + 100000*z;
+    }
+    
+    @Override
+    public boolean equals(Object o)
+    {
+    	if (o.getClass().equals(Coordinate.class))
+    	{
+    		//check whether the coordinates are the same
+    		Coordinate coo = (Coordinate) o;
+    		
+    		if (this.x == coo.getX() && this.y == coo.getY() && this.z == coo.getZ())
+    		{
+    			return true;
+    		}
+    		else
+    		{
+    			return false;
+    		}
+    		
+    	}
+    	else 
+    	{
+    		return false;
+    	}
     }
 }

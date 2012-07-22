@@ -28,11 +28,11 @@ public class GUICommunicationManager
 	 * @param mapType Which type of map the coordinate system refers to
 	 * @return
 	 */
-	public GUIObject GetGUIObject(Coordinate coordinate,MapOverlay overlay,MapType mapType)
+	public static GUIObject GetGUIObject(Coordinate coordinate,MapOverlay overlay,MapType mapType)
 	{
 		if (mapType == MapType.LOCAL)
 		{
-			//TODO: USE LOCAL MAP MANAGER
+			LocalMapManager.getTileAsGUIObject(coordinate);
 		}
 		else if (mapType == MapType.GLOBAL)
 		{
@@ -43,68 +43,42 @@ public class GUICommunicationManager
 	}
 	
 	/**
-	 * Returns a GUI object which has a particular id.
-	 * @param id
-	 * @param mapType
-	 * @return
-	 * @throws ItemNotFoundException If the item could not be found
-	 */
-	public GUIObject GetObjectById(long id,MapType mapType) throws ItemNotFoundException
-	{
-		//TODO: IMPLEMENT
-	
-		throw new ItemNotFoundException("Item with id : " + id + " for Map " + mapType.toString() + " was not found");
-		
-	}
-	
-	/**
-	 * Lets the user perform a particular action upon an item with id "TargetId".
+	 * Lets the user perform a particular action upon an item belonging on that particular coordinate
 	 * The parameter to be passed depend on the ActionType. PLEASE READ INDIVIDUAL DOCUMENTATION TO DETERMINE WHAT NEEDS TO BE PASSED
-	 * @param targetId The id of the item which the action is occuring upon. It could be the player itself for certain things
+	 * @param tileCoordinate The coordinate of the tile on which the object is (or the tile itself)
 	 * @param action The action to perform upon the item
 	 * @param parameters The parameters which determien the details of the action. PLEASE READ INDIVIDUAL DOCUMENTATION TO DETERMINE WHAT NEEDS TO BE PASSED
 	 * @param mapType The map we're talking about
 	 * @return A list of messages to be displayed to the user
 	 */
-	public List<Message> PerformAction(long targetId,PhysicalActionType action,Map<String,String> parameters,MapType mapType)
+	public static List<Message> PerformAction(Coordinate tileCoordinate,PhysicalActionType action,Map<String,String> parameters,MapType mapType)
 	{
-		try
-		{
-			MapItem item = GetMapItem(targetId,mapType);
-			
-			item.performAction(action, null, parameters);
-			
-			//TODO: ACTOR SHOULD BE PLAYER CHARACTER
-			
-		} 
-		catch (ItemNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
-
-		return null;
-	}
-	/**
-	 * Gets a particular Map item using the id and a maptype
-	 * @param id
-	 * @param mapType
-	 * @return
-	 */
-	private MapItem GetMapItem(long id,MapType mapType) throws ItemNotFoundException
-	{
-		//TODO: IMPLEMENT
-		
 		if (mapType == MapType.LOCAL)
 		{
 			//use local manager
+			return LocalMapManager.performAction(tileCoordinate, LocalMapManager.getPlayerCharacter() , action, parameters);
 		}
 		else if (mapType == MapType.GLOBAL)
 		{
 			//use global manager
 		}
 		
-		throw new ItemNotFoundException("Item with id : " + id + " on maptype " + mapType.toString() + " was not found" );
+		return null; //something went wrong
 	}
+	
+	/**
+	 * Returns the local coordinates of the player. May return null if he is not on a local map
+	 * @return
+	 */
+	public static Coordinate getPlayerLocalCoordinates()
+	{
+		return LocalMapManager.getPlayerCoordinate();
+	}
+	
+	public static Coordinate getPlayerGlobalCoordinates()
+	{
+		//TODO: Put in code
+		return null;
+	}
+	
 }

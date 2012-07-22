@@ -7,6 +7,9 @@ package objects.common.enums;
 public enum MapItemType 
 {
 	NOTHING,
-	LOCAL_TILE_AIR;
+	LOCAL_TILE_AIR,
+	
+	
+	GLOBAL_TILE_VOID;
 	///TODO: The rest
 }

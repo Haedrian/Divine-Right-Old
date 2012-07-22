@@ -2,6 +2,7 @@ package factory;
 
 import java.util.ArrayList;
 
+import objects.common.GlobalTile;
 import objects.common.MapItem;
 import objects.common.Tile;
 import objects.common.enums.MapItemType;
@@ -31,6 +32,10 @@ public class ItemFactory
 		{
 			return CreateMapItemLocalTile(type);
 		}
+		else if (type.toString().contains("GLOBAL_TILE"))
+		{
+			return CreateMapItemGlobalTile(type);
+		}
 		
 		throw new ItemNotFoundException(type.toString() + " is not implemented yet");
 		
@@ -49,11 +54,28 @@ public class ItemFactory
 		{
 		case LOCAL_TILE_AIR:
 			ret.setGraphic("none");
-			ret.setIsWalkable(true);
+			ret.setIsWalkable(false);
 			ret.setName("");
 			ret.setSupportedPhysicalActions(new ArrayList<PhysicalActionType>()); //no actions supported
 			return ret;
 							
+		}
+		
+		throw new ItemNotFoundException(type.toString() + " is not implemented yet");
+	}
+	
+	private static GlobalTile CreateMapItemGlobalTile(MapItemType type) throws ItemNotFoundException
+	{
+		GlobalTile ret = new GlobalTile();
+		
+		switch (type)
+		{
+		case GLOBAL_TILE_VOID:
+			ret.setGraphic("none");
+			ret.setIsWalkable(false);
+			ret.setName("");
+			ret.setSupportedPhysicalActions(new ArrayList<PhysicalActionType>()); //no actions supproted
+			return ret;
 		}
 		
 		throw new ItemNotFoundException(type.toString() + " is not implemented yet");

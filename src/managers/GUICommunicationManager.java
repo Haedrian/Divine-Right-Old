@@ -32,14 +32,14 @@ public class GUICommunicationManager
 	{
 		if (mapType == MapType.LOCAL)
 		{
-			LocalMapManager.getTileAsGUIObject(coordinate);
+			return LocalMapManager.getTileAsGUIObject(coordinate);
 		}
 		else if (mapType == MapType.GLOBAL)
 		{
-			//TODO: USE GLOBAL MAP MANAGER
+			return GlobalMapManager.getTileAsGUIObject(coordinate);
 		}
 		
-		return null; //TODO: IMPLEMENT
+		return null;
 	}
 	
 	/**
@@ -60,7 +60,7 @@ public class GUICommunicationManager
 		}
 		else if (mapType == MapType.GLOBAL)
 		{
-			//use global manager
+			return GlobalMapManager.performAction(tileCoordinate, GlobalMapManager.getPlayerCharacter(), action, parameters);
 		}
 		
 		return null; //something went wrong
@@ -77,8 +77,7 @@ public class GUICommunicationManager
 	
 	public static Coordinate getPlayerGlobalCoordinates()
 	{
-		//TODO: Put in code
-		return null;
+		return GlobalMapManager.getPlayerCoordinate();
 	}
 	
 }

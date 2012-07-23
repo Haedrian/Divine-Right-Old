@@ -29,4 +29,20 @@ public class GlobalMapItem extends MapItem {
 	public boolean getIsInRegion(){
 		return this.IsInRegion;
 	}
+	
+	//check if two tiles are adjacent to eachother. A tile is a neighbor of itself
+	public boolean isANeighbor(GlobalMapItem gmi2){
+	   if (Math.abs(this.getPosition().getX() - gmi2.getPosition().getX()) <= 1 && Math.abs(this.getPosition().getY() - gmi2.getPosition().getY()) <= 1)
+	   {return true;} 
+	   else {return false;}
+	}
+	//check if a tile is adjacent to a region. A tile contained in the region is considered adjacent to the region.
+	public boolean isANeighbor(Region region){
+		boolean flag = false;
+		for (int i = 0; i < region.getRegion().size(); i++){
+		   flag = flag || this.isANeighbor(region.getRegion().get(i));
+		   if (flag) {break;}
+		}
+		return flag;
+	}
 }

@@ -6,18 +6,10 @@ package objects.common.enums;
  */
 public enum MapItemType 
 {
-	NOTHING;
+	NOTHING,
+	LOCAL_TILE_AIR,
+	
+	
+	GLOBAL_TILE_VOID;
 	///TODO: The rest
-
-	public MapItemType getMapItemTypeFromInt(int value)
-	{
-		switch (value)
-		{
-			case 0:
-				return NOTHING;
-		
-			default: return NOTHING;
-		}
-		
-	}
 }

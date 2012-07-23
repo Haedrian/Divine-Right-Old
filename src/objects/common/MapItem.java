@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import objects.common.StringParameters.EngineParameters;
 import objects.common.enums.*;
-import objects.common.exceptions.ActionTypeMismatchException;
-import objects.common.managers.LocalMapManager;
 import objects.common.messages.Message;
 
 /**
@@ -150,104 +147,19 @@ public class MapItem
 	public List<Message> performAction(PhysicalActionType action,Actor actor,Map<String,String> parameters)
 	{
 		List<Message> messages = new ArrayList<Message>();
-		if (!supportedPhysicalActions.contains(action)) {
+		if (!supportedPhysicalActions.contains(action)) 
+		{
 			//Error message
 			messages.add(new Message(MessageType.MODAL,"Error: Action not supported on this type"));
 			return messages;
 		}
-		//TODO: Expand for the rest
-        try {
-            switch (action) {
-                case MOVE_X_PLUS:  moveOnto(action,actor,parameters); break;
-                case MOVE_X_MINUS: moveOnto(action,actor,parameters); break;
-                case MOVE_Y_PLUS:  moveOnto(action,actor,parameters); break;
-                case MOVE_Y_MINUS: moveOnto(action,actor,parameters); break;
-                case MOVE_Z_PLUS:  moveOnto(action,actor,parameters); break;
-                case MOVE_Z_MINUS: moveOnto(action,actor,parameters); break;
-                case TELEPORT:     moveOnto(action,actor,parameters); break;
-            }
-        } catch (ActionTypeMismatchException atme) {
-            //do nothing;
-        }
+		switch (action) 
+		{
+		    //TODO
+		}
 		return messages;
 	}
-
-    /**
-     * this action should act onto actor moving
-     * @param physicalActionType
-     * @param actor
-     * @param parameters
-     * @return
-     * @throws ActionTypeMismatchException
-     */
-    protected MethodResultType moveOnto(PhysicalActionType physicalActionType,Actor actor,Map<String,String> parameters) throws ActionTypeMismatchException {
-        int x = this.position.getX();
-        int y = this.position.getY();
-        int z = this.position.getZ();
-        switch (physicalActionType) {
-            case MOVE_X_PLUS:   return moveCore(x+1,y,z,extractMoveMode(parameters));
-            case MOVE_X_MINUS:  return moveCore(x-1,y,z,extractMoveMode(parameters));
-            case MOVE_Y_PLUS:   return moveCore(x,y+1,z,extractMoveMode(parameters));
-            case MOVE_Y_MINUS:  return moveCore(x,y-1,z,extractMoveMode(parameters));
-            case MOVE_Z_PLUS:   return moveCore(x,y,z+1,extractMoveMode(parameters));
-            case MOVE_Z_MINUS:  return moveCore(x,y,z-1,extractMoveMode(parameters));
-            case TELEPORT:      int[] onto = extractTeleportTarget(parameters);
-                                return moveCore(onto[0],onto[1],onto[3],extractMoveMode(parameters));
-        }
-        return MethodResultType.MOVE_IMPOSSIBLE;
-    }
-
-    protected MethodResultType moveCore(int newX, int newY, int newZ, MoveMode mode) {
-        //you can walk out of inaccessible tile
-        if ((!LocalMapManager.getTileAt(this.position).isMoveModeAllowed(mode)) && (!mode.equals(MoveMode.MOVE_WALK))) {
-            return MethodResultType.MOVE_IMPOSSIBLE;
-        }
-        Coordinate newCoor = new Coordinate(newX,newY,newZ);
-        //you cant move if target does not support your motion mode
-        if (!LocalMapManager.getTileAt(newCoor).isMoveModeAllowed(mode)) {
-            return MethodResultType.MOVE_IMPOSSIBLE;
-        }
-        //you are clear to move
-        Coordinate oldPos = this.position;
-        this.position = newCoor;
-        registerNewPosition(oldPos);
-        return MethodResultType.ACTION_SUCCESSFUL;
-    }
     
-    protected MoveMode extractMoveMode(Map<String, String> parameters) {
-        MoveMode ret = MoveMode.MOVE_WALK;
-        String retStr = "";
-        if (parameters.containsKey(EngineParameters.MOVE_MODE)){
-            retStr = parameters.get(EngineParameters.MOVE_MODE);
-            try {
-                ret = MoveMode.valueOf(retStr);
-            } catch (Exception e) {
-                ret = MoveMode.MOVE_WALK;
-            }
-        }
-        return ret;
-    }
-    
-    protected int[] extractTeleportTarget(Map<String, String> parameters) {
-        int[] ret = new int[3];
-        if (parameters.containsKey(EngineParameters.MOVE_TELEPORTDESTINATION)) {
-            try {
-                String ints = parameters.get(EngineParameters.MOVE_TELEPORTDESTINATION);
-                String[] splitInts = ints.split(EngineParameters.PARAMETER_DELIMITER);
-                for (int i = 0; i < ret.length; i++){
-                    ret[i] = new Integer(splitInts[i]);
-                }
-            } catch (Exception e) {
-                ret = new int[] {this.position.getX(),this.position.getY(),this.position.getZ()};
-            }
-        }
-        return ret;
-    }
-    
-    protected void registerNewPosition(Coordinate oldPosition) {
-        //TODO: once map storage methods develop, add position re-registration;
-    }
-
     protected void logException(Exception e) {
         System.out.println(e.toString());
         for (StackTraceElement stackTraceElement: e.getStackTrace()) {

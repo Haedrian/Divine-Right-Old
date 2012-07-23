@@ -10,7 +10,7 @@ import org.newdawn.slick.Graphics;
  */
 public class Camera {
 	
-	
+	private Avatar attachedTo;
 	private int offsetX;
 	private int offsetY;
 	
@@ -20,7 +20,10 @@ public class Camera {
 	 * @param delta
 	 */
 	public void update(GameContainer gc, int delta) {
-		
+		if(attachedTo != null) {
+			offsetX = attachedTo.getDisplayX();
+			offsetY = attachedTo.getDisplayY();
+		}
 	}
 	
 	/**
@@ -53,5 +56,20 @@ public class Camera {
 	 */
 	public void resetOffset(Graphics g) {
 		g.resetTransform();
+	}
+	
+	/**
+	 * Attaches the camera to a specific Avatar.
+	 * @param newAvatar
+	 */
+	public void attachTo(Avatar newAvatar) {
+		attachedTo = newAvatar;
+	}
+	
+	/**
+	 * Detachs the camera from whatever Avatar it is following right now.
+	 */
+	public void detachAvatar() {
+		attachedTo = null;
 	}
 }

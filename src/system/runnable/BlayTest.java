@@ -1,14 +1,18 @@
 package system.runnable;
 
+import objects.common.enums.MessageType;
+import objects.common.messages.Message;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
-import org.newdawn.slick.Image;
+import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
 
-import ui.resources.ImageLoader;
+import ui.graphics.Camera;
+import ui.graphics.MapDisplay;
+import ui.messages.GUIMessageManager;
 
 /**
  * 
@@ -23,27 +27,41 @@ public class BlayTest extends BasicGame {
 		gc.start();
 	}
 	
-	private Image testImage;
+	private Camera camera;
+	private MapDisplay mapDisplay;
+	private GUIMessageManager messageManager;
 	
 	public BlayTest() {
 		super("Divine Right");
 	}
 	
-	@Override
-	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setColor(Color.black);
-		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
-		testImage.draw(gc.getWidth() / 2 - testImage.getWidth() / 2, gc.getHeight() / 2 - testImage.getWidth() / 2);
-	}
 
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		testImage = ImageLoader.getInstance().getImage("test");
-		testImage.setCenterOfRotation(testImage.getWidth() / 2, testImage.getHeight() / 2);
+		camera = new Camera();
+		mapDisplay = new MapDisplay();
+		messageManager = new GUIMessageManager(gc);
 	}
 
 	@Override
+	public void keyReleased(int keyCode, char unicode) {
+		if(keyCode == Input.KEY_RETURN) {
+			messageManager.addMessage(new Message(MessageType.TOAST, "Test-Toast-Message"));
+		} else if(keyCode == Input.KEY_SPACE) {
+			messageManager.addMessage(new Message(MessageType.TOAST, "Test-Toast-Message #2"));
+		}
+	}
+	
+	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
-		testImage.rotate(delta * 0.2f);
+		messageManager.update(gc, delta);
+	}
+	
+	@Override
+	public void render(GameContainer gc, Graphics g) throws SlickException {
+		camera.applyOffset(g);
+		mapDisplay.render(gc, g);
+		camera.resetOffset(g);
+		messageManager.render(gc, g);
 	}
 }

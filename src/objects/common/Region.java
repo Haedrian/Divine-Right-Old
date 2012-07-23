@@ -4,27 +4,27 @@ import java.util.*;
 
 public class Region {
 
-protected ArrayList<GlobalMapItem> region = new ArrayList<GlobalMapItem>();
+protected ArrayList<GlobalTile> region = new ArrayList<GlobalTile>();
 protected Coordinate center;
 
 
 /**
  * @return the GlobalMapItems belonging to a region
  */
-public ArrayList<GlobalMapItem> getRegion() {
+public ArrayList<GlobalTile> getRegion() {
 	return region;
 }
 /**
  * @param region the region to set
  */
-public void setRegion(ArrayList<GlobalMapItem> region) {
+public void setRegion(ArrayList<GlobalTile> region) {
 	this.region = region;
 }
 /**
  * @return the center of region
  */
 
-public void addToRegion(GlobalMapItem newitem) {
+public void addToRegion(GlobalTile newitem) {
 	region.add(newitem);
 	newitem.setIsInRegion();
 }
@@ -48,7 +48,7 @@ public void setCenter(Coordinate center) {
 }
  
 //check if a tile is adjacent to a region. A tile contained in the region is considered adjacent to the region.
-public boolean isANeighbor(GlobalMapItem gmi){
+public boolean isANeighbor(GlobalTile gmi){
      return gmi.isANeighbor(this);
   }
 

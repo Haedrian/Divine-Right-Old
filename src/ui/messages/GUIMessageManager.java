@@ -14,12 +14,14 @@ import objects.common.messages.Message;
 public class GUIMessageManager {
 	
 	private ToastMessageRenderer toastRenderer;
+	private ModalMessageRenderer modalRenderer;
 	
 	/**
 	 * Creates a new instance of the manager, and with that also initializes the different message renderers.
 	 */
 	public GUIMessageManager(GameContainer newGC) {
 		toastRenderer = new ToastMessageRenderer(newGC);
+		modalRenderer = new ModalMessageRenderer(newGC);
 	}
 	
 	/**
@@ -38,7 +40,7 @@ public class GUIMessageManager {
 			
 			break;
 		case MODAL:
-			
+			modalRenderer.addMessage(newMessage);
 			break;
 		case CHOICE:
 			
@@ -53,6 +55,7 @@ public class GUIMessageManager {
 	 */
 	public void update(GameContainer gc, int delta) {
 		toastRenderer.update(gc, delta);
+		modalRenderer.update(gc, delta);
 	}
 	
 	/**
@@ -62,6 +65,27 @@ public class GUIMessageManager {
 	 */
 	public void render(GameContainer gc, Graphics g) {
 		toastRenderer.render(gc, g);
+		modalRenderer.render(gc, g);
+	}
+
+	/**
+	 * Forward the input event to the message renderers.
+	 * @param mouseButton
+	 * @param mouseX
+	 * @param mouseY
+	 */
+	public void mouseReleased(int mouseButton, int mouseX, int mouseY) {
+		modalRenderer.mouseReleased(mouseButton, mouseX, mouseY);
+	}
+	
+	/**
+	 * Forward the input event to the message renderers.
+	 * @param mouseButton
+	 * @param mouseX
+	 * @param mouseY
+	 */
+	public void keyReleased(int keyCode, char unicode) {
+		modalRenderer.keyReleased(keyCode, unicode);
 	}
 	
 }

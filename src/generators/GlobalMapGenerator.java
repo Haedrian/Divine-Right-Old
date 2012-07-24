@@ -3,6 +3,7 @@ package generators;
 import mathaux.Interpolation;
 import objects.common.Coordinate;
 import objects.common.GlobalMapItem;
+import objects.common.GlobalTile;
 import objects.common.Region;
 
 
@@ -11,7 +12,7 @@ import java.util.Random;
 
 public class GlobalMapGenerator{ 
 
-protected GlobalMapItem[][] globalmap; 
+protected GlobalTile[][] globalmap; 
 protected Random random = new Random();
 protected Region[] worldregion;
 protected int regionflag;
@@ -25,7 +26,7 @@ protected int worldSize;
 public GlobalMapGenerator (int regionnumber, int worldSize){
 	worldregion = new Region[regionnumber +1];
 	this.worldSize = worldSize;
-	globalmap =  new GlobalMapItem[worldSize][worldSize];
+	globalmap =  new GlobalTile[worldSize][worldSize];
 	for (int i=0; i < worldregion.length; i++)
 	{
 		worldregion[i] = new Region();
@@ -36,7 +37,7 @@ public GlobalMapGenerator (int regionnumber, int worldSize){
 	{
 		for (int j = 0; j < globalmap[0].length; j++)
 		{
-			globalmap[i][j] = new GlobalMapItem();			
+			globalmap[i][j] = new GlobalTile();			
 			globalmap[i][j].setPosition(new Coordinate(i,j,0));
 			globalmap[i][j].setElevation(40);
 		}
@@ -100,17 +101,31 @@ public GlobalMapGenerator (int regionnumber, int worldSize){
 		}
 		//setting random elevations for different regions
 		for (int iter = 1; iter <= regionnumber; iter++){
-			int elev = random.nextInt(240) - 80;
+	    	int x = worldregion[iter].getCenter().getX();
+	    	int y = worldregion[iter].getCenter().getY();
+	    	int elev;
+	    	if (Math.sqrt(Math.pow((worldSize/2 - x),2) + Math.pow(worldSize/2 - y, 2)) > worldSize*0.4 - (random.nextGaussian()*worldSize*0.1 + worldSize*0.1)){
+	    		elev = random.nextInt(90)-100;
+	    	} else {elev = random.nextInt(180) - 30;}
 			//System.out.println("Region " + iter + " has size "+ worldregion[iter].getRegion().size() );
+	    	if (Math.abs(elev) < 10) {elev = elev*10;}
 		    for (int i = 0; i < worldregion[iter].getRegion().size(); i++){
-		    	worldregion[iter].getRegion().get(i).setElevation(elev);
+		    	worldregion[iter].getRegion().get(i).setElevation((int) Math.round(elev));
 		    }
 	     }
 
 
   }
-public GlobalMapItem getGlobalMapItem (int i, int j){
+public GlobalTile getGlobalTile (int i, int j){
 	return globalmap[i][j];
+}
+
+public int getWorldSize (){
+	return this.worldSize;
+}
+
+public Region[] getWorldRegion(){
+	return this.worldregion;
 }
 
 //smoothing out the map using inverse distance weighting with exponent p.
@@ -159,12 +174,12 @@ public GlobalMapItem getGlobalMapItem (int i, int j){
 		for (int j = worldSize/30; j < worldSize/10; j++)
 		{
 			double cutoff = random.nextDouble();
-			if (cutoff < 0.001 ){
+			if (cutoff < 0.01 ){
 				coorddata.add(globalmap[i][j].getPosition());
 				resultdata.add((double) globalmap[i][j].getElevation());
 			}
 			cutoff = random.nextDouble();
-			if (cutoff < 0.001 ){
+			if (cutoff < 0.01 ){
 				coorddata.add(globalmap[i][worldSize - j].getPosition());
 				resultdata.add((double) globalmap[i][worldSize - j].getElevation());
 			}
@@ -182,5 +197,27 @@ public GlobalMapItem getGlobalMapItem (int i, int j){
 	  }
     
   }
-
+  public void smoothen(double p){
+	  Interpolation smoother = new Interpolation();
+      
+	  for (int i = 0; i < worldSize; i++)
+	  {
+		  for (int j = 0; j < worldSize; j++)
+		  {
+			  System.out.println("Smoothing tile "+i+","+j);
+			  globalmap[i][j].setElevation(smoother.inverseDistanceWeighting(this, this.getGlobalTile(i, j), p));
+		  }
+	  }
+  }
+  public void erosion(){
+	  Interpolation smoother = new Interpolation();
+	  for (int i = 0; i < worldSize; i++)
+	  {
+		  for (int j = 0; j < worldSize; j++)
+		  {
+			  System.out.println("Eroding tile "+i+","+j);
+			  globalmap[i][j].setElevation(smoother.nearestNeighbour(this,this.getGlobalTile(i, j)));
+		  }
+	  }
+  }
 }

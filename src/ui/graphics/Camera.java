@@ -1,7 +1,11 @@
 package ui.graphics;
 
+import objects.common.enums.MapType;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+
+import ui.common.Viewport;
 
 /**
  * Offers functions to attach the camera to or detach it from an avatar, and move it around freely.
@@ -11,8 +15,11 @@ import org.newdawn.slick.Graphics;
 public class Camera {
 	
 	private Avatar attachedTo;
+	private Viewport viewport;
 	private int offsetX;
 	private int offsetY;
+	private boolean dirtyViewport;
+	private MapType mapType;
 	
 	/**
 	 * Takes care of smooth moving for the camera and updates the offset in case it's attached to an avatar.
@@ -21,8 +28,13 @@ public class Camera {
 	 */
 	public void update(GameContainer gc, int delta) {
 		if(attachedTo != null) {
+			int oldOffsetX = offsetX;
+			int oldOffsetY = offsetY;
 			offsetX = attachedTo.getDisplayX();
 			offsetY = attachedTo.getDisplayY();
+			if(oldOffsetX != offsetX || oldOffsetY != offsetY) {
+				recalculateViewport();
+			}
 		}
 	}
 	
@@ -71,5 +83,36 @@ public class Camera {
 	 */
 	public void detachAvatar() {
 		attachedTo = null;
+	}
+
+	public MapType getMapType() {
+		return mapType;
+	}
+	
+	/**
+	 * Returns true if the camera moved since the last update call.
+	 * @return
+	 */
+	public boolean viewportChanged() {
+		return dirtyViewport;
+	}
+	
+	private void recalculateViewport() {
+		Viewport oldViewport = viewport;
+		viewport = new Viewport();
+		
+		// TODO calculate viewport
+		
+		if(!viewport.equals(oldViewport)) {
+			dirtyViewport = true;
+		}
+	}
+
+	/**
+	 * Returns the area that is currently visible on the map.
+	 * @return
+	 */
+	public Viewport getViewport() {
+		return viewport;
 	}
 }

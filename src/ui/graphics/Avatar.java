@@ -10,12 +10,10 @@ import org.newdawn.slick.Graphics;
  * @author Blay09
  *
  */
-public class Avatar {
+public class Avatar extends DisplayItem {
 	
 	private long id;
-	private int displayX;
-	private int displayY;
-	
+
 	/**
 	 * Creates a new Avatar instance for the actor with the given id.
 	 * @param newId
@@ -31,21 +29,13 @@ public class Avatar {
 	public long getId() {
 		return id;
 	}
-	
+
 	/**
-	 * Returns the display coordinates of this Avatar.
-	 * @return
+	 * Updates smooth movement and animations.
 	 */
-	public int getDisplayX() {
-		return displayX;
-	}
-	
-	/**
-	 * Returns the display coordinates of this Avatar.
-	 * @return
-	 */
-	public int getDisplayY() {
-		return displayY;
+	@Override
+	public void update(GameContainer gc, int delta) {
+		
 	}
 	
 	/**
@@ -53,6 +43,7 @@ public class Avatar {
 	 * @param gc
 	 * @param g
 	 */
+	@Override
 	public void render(GameContainer gc, Graphics g) {
 		g.setColor(Color.blue);
 		g.fillRect(displayX, displayY, 30, 30);

@@ -50,6 +50,14 @@ public class LocalMapManager
     {
     	
     }
+    /**
+     * Returns the list of actors
+     * @return
+     */
+    public static List<Actor> getActors()
+    {
+    	return actors;
+    }
     
     /**
      * Returns the Tile at the Coordinate as a GUI Object.
@@ -75,11 +83,26 @@ public class LocalMapManager
     	{
     		ret.setTopMapItemGraphic("");
     		ret.setDescription(tile.getName());
+    		ret.setId(-1);
+    		ret.setTopItemType(tile.getItemType());
     	}
     	else 
     	{
     		ret.setTopMapItemGraphic(top.getGraphic());
     		ret.setDescription(top.getName());
+    		ret.setId(top.getLocalId());
+    		ret.setTopItemType(top.getItemType());
+    	}
+    	
+    	//get the list of map items upon the tile
+    	
+    	List<MapItem> items = tile.getItems();
+    	ret.setItemsGraphics(new ArrayList<String>());
+    	
+    	for(MapItem item: items)
+    	{
+    		ret.getItemsGraphics().add(item.getGraphic());
+    		
     	}
     	
     	return ret;

@@ -2,6 +2,7 @@ package objects.common;
 
 import java.util.List;
 
+import objects.common.enums.MapItemType;
 import objects.common.enums.PhysicalActionType;
 
 /**
@@ -14,6 +15,9 @@ public class GUIObject
 	protected Coordinate coordinate = new Coordinate();
 	protected String tileGraphic = "";
 	protected String topMapItemGraphic = "";
+	protected List<String> itemsGraphics;
+	protected long topMapItemId;
+	protected MapItemType topItemType;
 	protected long id;
 	protected List<PhysicalActionType> possibleActions;
 	protected String description = "";
@@ -38,15 +42,6 @@ public class GUIObject
 	public String getTileGraphic()
 	{
 		return tileGraphic;
-	}
-
-	/**
-	 * Returns the Graphic of the MapItem to be placed on top of the tile
-	 * @return
-	 */
-	public String getTopObjectGraphic()
-	{
-		return topMapItemGraphic;
 	}
 	/**
 	 * Returns the unique id which this tile (and the objects upon it) use to refer to themselves.
@@ -144,6 +139,52 @@ public class GUIObject
 	public void setDescription(String description)
 	{
 		this.description = description;
+	}
+	
+/**
+ * Gets the list of item graphics for all the items upon this tile
+ * @return
+ */
+	public List<String> getItemsGraphics()
+	{
+		return itemsGraphics;
+	}
+
+	/**
+	 * Sets the item graphics list for all items upon this tile
+	 * @param itemsGraphics
+	 */
+	public void setItemsGraphics(List<String> itemsGraphics)
+	{
+		this.itemsGraphics = itemsGraphics;
+	}
+
+	/**
+	 * Gets the id of the top map item. May be -1 if it has none
+	 * @return
+	 */
+	public long getTopMapItemId()
+	{
+		return topMapItemId;
+	}
+
+	public void setTopMapItemId(long topMapItemId)
+	{
+		this.topMapItemId = topMapItemId;
+	}
+
+	/**
+	 * Gets the type of the top Item on this tile. If there is no top item - will return the type of the tile
+	 * @return
+	 */
+	public MapItemType getTopItemType()
+	{
+		return topItemType;
+	}
+
+	public void setTopItemType(MapItemType topItemType)
+	{
+		this.topItemType = topItemType;
 	}
 
 

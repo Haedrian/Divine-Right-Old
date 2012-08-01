@@ -3,6 +3,7 @@ package managers;
 import java.util.List;
 import java.util.Map;
 
+import objects.common.Actor;
 import objects.common.Coordinate;
 import objects.common.GUIObject;
 import objects.common.MapItem;
@@ -74,10 +75,21 @@ public class GUICommunicationManager
 	{
 		return LocalMapManager.getPlayerCoordinate();
 	}
-	
+	/**
+	 * Returns the global coordinates of the player.
+	 * @return
+	 */
 	public static Coordinate getPlayerGlobalCoordinates()
 	{
 		return GlobalMapManager.getPlayerCoordinate();
 	}
-	
+	/**
+	 * Returns the list of local Actors
+	 * @return
+	 */
+	public static List<Actor> getLocalActorList()
+	{
+		return LocalMapManager.getActors();
+		
+	}
 }

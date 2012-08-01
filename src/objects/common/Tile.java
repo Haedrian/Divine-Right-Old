@@ -20,14 +20,6 @@ public class Tile extends MapItem
     
     List<MapItem> itemsOnTile = new LinkedList<MapItem>();
 
-    /**
-     * Returns a list of Items which belong on the Tile
-     * @return
-     */
-    public List<MapItem> getItemsOnTile() 
-    {
-        return itemsOnTile;
-    }
     @Override
     /**
      * In this case, whether a tile is walkable depends on the top item (if present)
@@ -156,6 +148,29 @@ public class Tile extends MapItem
     		return null;
     	
     }
+    /**
+     * Returns a list of items which belong upon this tile.
+     * They are sorted in order, such that 0 is the top item.
+     * The list may be empty if there are no items
+     * @return
+     */
+    public List<MapItem> getItems()
+    {
+    	for (int i=0; i < itemsOnTile.size() ; i++)
+    	{
+    		MapItem item = itemsOnTile.get(i);
+    		
+    		//Lazily check whether the coordinates are correct
+    		if (!item.getPosition().equals(this.getPosition()))
+    		{
+    			itemsOnTile.remove(i);
+    		}
+    	}
+    	
+    	//now that that's done - return the list
+    	return itemsOnTile;
+    }
+    
     /**
      * Adds an item to this tile. Will change the coordinate of the item in question
      * @param item

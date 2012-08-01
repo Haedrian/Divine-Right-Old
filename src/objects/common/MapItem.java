@@ -18,8 +18,8 @@ public class MapItem
 	protected String name;
 	protected String graphic;
 	protected MapItemType itemType;
-	protected long globalId;
-	protected long localId;
+	protected long globalId = -1;
+	protected long localId = -1;
 	protected Coordinate position;	
 	protected ArrayList<PhysicalActionType> supportedPhysicalActions = new ArrayList<PhysicalActionType>();
 	protected Boolean isWalkable;

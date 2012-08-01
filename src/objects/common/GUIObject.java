@@ -39,15 +39,6 @@ public class GUIObject
 	{
 		return tileGraphic;
 	}
-
-	/**
-	 * Returns the Graphic of the MapItem to be placed on top of the tile
-	 * @return
-	 */
-	public String getTopObjectGraphic()
-	{
-		return topMapItemGraphic;
-	}
 	/**
 	 * Returns the unique id which this tile (and the objects upon it) use to refer to themselves.
 	 * @return

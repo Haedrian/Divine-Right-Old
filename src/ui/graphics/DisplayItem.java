@@ -14,6 +14,7 @@ import ui.common.UIConstants;
  */
 public abstract class DisplayItem {
 	
+	protected Coordinate coords;
 	protected int displayX;
 	protected int displayY;
 	
@@ -26,6 +27,7 @@ public abstract class DisplayItem {
 	 * @param newCoords
 	 */
 	public void setDisplayPos(Coordinate newCoords) {
+		coords = new Coordinate(newCoords);
 		displayX = newCoords.getX() * UIConstants.TILE_WIDTH;
 		displayY = newCoords.getY() * UIConstants.TILE_HEIGHT - newCoords.getZ() * UIConstants.Z_LEVEL_OFFSET;
 	}
@@ -46,6 +48,7 @@ public abstract class DisplayItem {
 		return displayY;
 	}
 	
+	public abstract void recycle();
 	public abstract void update(GameContainer gc, int delta);
 	public abstract void render(GameContainer gc, Graphics g);
 }

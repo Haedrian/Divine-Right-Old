@@ -51,4 +51,22 @@ public class Viewport {
 		}
 		return true;
 	}
+
+	/**
+	 * Fills this viewport with values.
+	 * @param newStartX
+	 * @param newStartY
+	 * @param newStartZ
+	 * @param newEndX
+	 * @param newEndY
+	 * @param newEndZ
+	 */
+	public void set(int newStartX, int newStartY, int newStartZ, int newEndX, int newEndY, int newEndZ) {
+		startX = newStartX;
+		startY = newStartY;
+		startZ = newStartZ;
+		endX = newEndX;
+		endY = newEndY;
+		endZ = newEndZ;
+	}
 }

@@ -26,6 +26,12 @@ public class Coordinate
 		// TODO Auto-generated constructor stub
 	}
 
+	public Coordinate(Coordinate copy) {
+		x = copy.x;
+		y = copy.y;
+		z = copy.z;
+	}
+
 	public int getX() {
 		return x;
 	}

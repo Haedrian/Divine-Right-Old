@@ -50,7 +50,8 @@ public class DivineRightUI extends BasicGame {
 	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
-		camera = new Camera();
+		gc.getInput().enableKeyRepeat();
+		camera = new Camera(gc.getWidth(), gc.getHeight());
 		mapDisplay = new MapDisplay(this);
 		messageManager = new GUIMessageManager(gc);
 	}
@@ -83,12 +84,27 @@ public class DivineRightUI extends BasicGame {
 		}
 	}
 	
+	@Override
+	public void keyPressed(int keyCode, char unicode) {
+		if(keyCode == Input.KEY_LEFT) {
+			camera.setOffset(camera.getOffsetX() - 2, camera.getOffsetY());
+		} else if(keyCode == Input.KEY_RIGHT) {
+			camera.setOffset(camera.getOffsetX() + 2, camera.getOffsetY());
+		} else if(keyCode == Input.KEY_UP) {
+			camera.setOffset(camera.getOffsetX(), camera.getOffsetY() - 2);
+		} else if(keyCode == Input.KEY_DOWN) {
+			camera.setOffset(camera.getOffsetX(), camera.getOffsetY() + 2);
+		}
+	}
+	
 	/**
 	 * Updates all UI elements.
 	 */
 	@Override
 	public void update(GameContainer gc, int delta) throws SlickException {
 		messageManager.update(gc, delta);
+		camera.update(gc, delta);
+		mapDisplay.update(gc, delta);
 	}
 	
 	/**
@@ -98,9 +114,7 @@ public class DivineRightUI extends BasicGame {
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		g.setColor(Color.lightGray);
 		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
-		camera.applyOffset(g);
 		mapDisplay.render(gc, g);
-		camera.resetOffset(g);
 		messageManager.render(gc, g);
 	}
 	

@@ -87,9 +87,28 @@ public class MapDisplay {
 		dirtyOrder = true;
 	}
 	
+	private void clearDisplay() {
+		for(int i = 0; i < displayList.size(); i++) {
+			displayList.get(i).recycle();
+		}
+		displayList.clear();
+	}
+	
+	private GUIObject getTestGUIObject(Coordinate coord) {
+		if(coord.getZ() != 0) {
+			return null;
+		}
+		if(coord.getX() < 0 || coord.getY() < 0) {
+			return null;
+		}
+		GUIObject newObj = new GUIObject();
+		newObj.setTileGraphic("test");
+		return newObj;
+	}
+	
 	private void reorder() {
 		if(camera.viewportChanged()) {
-			displayList.clear();
+			clearDisplay();
 			Viewport newViewport = camera.getViewport();
 			MapType mapType = camera.getMapType();
 			Coordinate coord = new Coordinate();
@@ -99,14 +118,19 @@ public class MapDisplay {
 						coord.setX(x);
 						coord.setY(y);
 						coord.setZ(z);
-						GUIObject currentObj = GUICommunicationManager.GetGUIObject(coord, MapOverlay.DEFAULT, mapType);
+//						GUIObject currentObj = GUICommunicationManager.GetGUIObject(coord, MapOverlay.DEFAULT, mapType);
+						GUIObject currentObj = getTestGUIObject(coord);
 						if(currentObj != null) {
-							
+							Tile newTile = TileRecycler.getInstance().getTile();
+							newTile.setImage(currentObj.getTileGraphic());
+							newTile.setDisplayPos(coord);
+							displayList.add(newTile);
 						}
 					}
 				}
 			}
 			dirtyOrder = true;
+			camera.resetViewportState();
 		}
 		if(dirtyOrder) {
 			Collections.sort(displayList, displayComp);

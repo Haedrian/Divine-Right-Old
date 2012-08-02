@@ -48,5 +48,12 @@ public class Avatar extends DisplayItem {
 		g.setColor(Color.blue);
 		g.fillRect(displayX, displayY, 30, 30);
 	}
+
+	/**
+	 * Do nothing
+	 */
+	@Override
+	public void recycle() {		
+	}
 	
 }

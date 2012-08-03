@@ -28,13 +28,14 @@ public class Tile extends DisplayItem {
 
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		g.setColor(Color.green);
-		g.fillRect(displayX, displayY, UIConstants.TILE_WIDTH, UIConstants.TILE_HEIGHT);
-		g.setColor(Color.black);
-		g.drawRect(displayX, displayY, UIConstants.TILE_WIDTH, UIConstants.TILE_HEIGHT);
-//		g.scale(0.5f, 0.5f);
-//		g.drawString(coords.getX() + ",\n" + coords.getY() + ",\n" + coords.getZ(), displayX * 2, displayY * 2);
-//		g.scale(2f, 2f);
+		image.draw(displayX, displayY, UIConstants.TILE_WIDTH, UIConstants.TILE_HEIGHT);
+//		g.setColor(Color.green);
+//		g.fillRect(displayX, displayY, UIConstants.TILE_WIDTH, UIConstants.TILE_HEIGHT);
+//		g.setColor(Color.black);
+//		g.drawRect(displayX, displayY, UIConstants.TILE_WIDTH, UIConstants.TILE_HEIGHT);
+////		g.scale(0.5f, 0.5f);
+////		g.drawString(coords.getX() + ",\n" + coords.getY() + ",\n" + coords.getZ(), displayX * 2, displayY * 2);
+////		g.scale(2f, 2f);
 	}
 
 	@Override

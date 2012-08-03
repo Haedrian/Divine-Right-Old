@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import managers.GUICommunicationManager;
 
@@ -102,7 +103,17 @@ public class MapDisplay {
 			return null;
 		}
 		GUIObject newObj = new GUIObject();
-		newObj.setTileGraphic("test");
+		Random rand = new Random();
+		int g = rand.nextInt(4);
+		if(g == 0) {
+			newObj.setTileGraphic("tiles/lightgrass");
+		} else if(g == 1) {
+			newObj.setTileGraphic("tiles/darkgrass");
+		} else if(g == 2) {
+			newObj.setTileGraphic("tiles/redground");
+		} else if(g == 3) {
+			newObj.setTileGraphic("tiles/sand");
+		}
 		return newObj;
 	}
 	

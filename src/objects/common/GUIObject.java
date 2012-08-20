@@ -3,6 +3,7 @@ package objects.common;
 import java.util.List;
 
 import objects.common.enums.MapItemType;
+import objects.common.enums.MapObjectGroupType;
 import objects.common.enums.PhysicalActionType;
 
 /**
@@ -21,6 +22,25 @@ public class GUIObject
 	protected long id;
 	protected List<PhysicalActionType> possibleActions;
 	protected String description = "";
+	protected List<MapObjectGroupType> topItemGroup;
+	
+	/**
+	 * Returns the GroupType list of the top item.
+	 * @return The GroupType list of the top item, can be empty but will not be null
+	 */
+	public List<MapObjectGroupType> getTopItemGroup()
+	{
+		return topItemGroup;
+	}
+	
+	/**
+	 * Sets the GroupType list of the top Item.
+	 * @param topItemGroup
+	 */
+	public void setTopItemGroup(List<MapObjectGroupType> topItemGroup)
+	{
+		this.topItemGroup = topItemGroup;
+	}
 
 	public GUIObject()
 	{

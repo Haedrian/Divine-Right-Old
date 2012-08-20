@@ -23,7 +23,24 @@ public class MapItem
 	protected Coordinate position;	
 	protected ArrayList<PhysicalActionType> supportedPhysicalActions = new ArrayList<PhysicalActionType>();
 	protected Boolean isWalkable;
+	protected ArrayList<MapObjectGroupType> typeGroups = new ArrayList<MapObjectGroupType>();
 	
+	/**
+	 * Gets the type groups of this object
+	 * @return
+	 */
+	public ArrayList<MapObjectGroupType> getTypeGroups()
+	{
+		return typeGroups;
+	}
+	/**
+	 * Sets the type groups of this object
+	 * @param typeGroups
+	 */
+	public void setTypeGroups(ArrayList<MapObjectGroupType> typeGroups)
+	{
+		this.typeGroups = typeGroups;
+	}
 	/**
 	 * Gets the Name of this Map Item. This is what is shown when you examine it
 	 * @return
@@ -159,7 +176,7 @@ public class MapItem
 		}
 		return messages;
 	}
-    
+	
     protected void logException(Exception e) {
         System.out.println(e.toString());
         for (StackTraceElement stackTraceElement: e.getStackTrace()) {
@@ -167,6 +184,7 @@ public class MapItem
         }
     }
 	
+    
 	
 	
 	

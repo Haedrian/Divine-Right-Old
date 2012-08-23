@@ -1,8 +1,13 @@
 package ui.graphics;
 
-import org.newdawn.slick.Color;
+import objects.common.Coordinate;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
+import org.newdawn.slick.Image;
+
+import ui.common.UIConstants;
+import ui.resources.ImageLoader;
 
 /**
  * This class is used for the rendering of actors.
@@ -13,6 +18,7 @@ import org.newdawn.slick.Graphics;
 public class Avatar extends DisplayItem {
 	
 	private long id;
+	private Image image;
 
 	/**
 	 * Creates a new Avatar instance for the actor with the given id.
@@ -45,8 +51,7 @@ public class Avatar extends DisplayItem {
 	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) {
-		g.setColor(Color.blue);
-		g.fillRect(displayX, displayY, 30, 30);
+		image.draw(displayX, displayY, UIConstants.TILE_WIDTH, UIConstants.TILE_HEIGHT);
 	}
 
 	/**
@@ -54,6 +59,18 @@ public class Avatar extends DisplayItem {
 	 */
 	@Override
 	public void recycle() {		
+	}
+
+	/**
+	 * Update this avatar's location, check for movement and start animation if needed.
+	 * @param coordinate
+	 */
+	public void updateLocation(Coordinate coordinate) {
+		setDisplayPos(coordinate);
+	}
+
+	public void setGraphicName(String newGraphicName) {
+		image = ImageLoader.getInstance().getImage(newGraphicName);
 	}
 	
 }

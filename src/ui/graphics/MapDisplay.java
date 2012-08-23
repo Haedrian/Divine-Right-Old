@@ -7,12 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import managers.GUICommunicationManager;
-
 import objects.common.Coordinate;
 import objects.common.GUIObject;
-import objects.common.enums.MapOverlay;
-import objects.common.enums.MapType;
+import objects.common.enums.MapObjectGroupType;
 
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -45,7 +42,7 @@ public class MapDisplay {
 		displayComp = new Comparator<DisplayItem>() {
 			@Override
 			public int compare(DisplayItem first, DisplayItem second) {
-				return 0;
+				return second.getDisplayY() - first.getDisplayY();
 			}
 		};
 		actorList = new HashMap<Long, Avatar>();
@@ -114,6 +111,15 @@ public class MapDisplay {
 		} else if(g == 3) {
 			newObj.setTileGraphic("tiles/sand");
 		}
+		List<MapObjectGroupType> topItemGroups = new ArrayList<MapObjectGroupType>();
+		topItemGroups.add(MapObjectGroupType.ACTOR);
+		newObj.setId(rand.nextInt(100));
+		newObj.setTopItemGroup(topItemGroups);
+		if(rand.nextBoolean()) {
+			newObj.setTopMapItemGraphic("actors/llama_64");
+		} else {
+			newObj.setTopMapItemGraphic("actors/player_64");
+		}
 		return newObj;
 	}
 	
@@ -121,7 +127,7 @@ public class MapDisplay {
 		if(camera.viewportChanged()) {
 			clearDisplay();
 			Viewport newViewport = camera.getViewport();
-			MapType mapType = camera.getMapType();
+//			MapType mapType = camera.getMapType();
 			Coordinate coord = new Coordinate();
 			for(int z = newViewport.getStartZ(); z <= newViewport.getEndZ(); z++) {
 				for(int y = newViewport.getStartY(); y <= newViewport.getEndY(); y++) {
@@ -136,6 +142,26 @@ public class MapDisplay {
 							newTile.setImage(currentObj.getTileGraphic());
 							newTile.setDisplayPos(coord);
 							displayList.add(newTile);
+							
+							String topItem = currentObj.getTopMapItemGraphic();
+							if(!topItem.isEmpty()) {
+								if(currentObj.getTopItemGroup().contains(MapObjectGroupType.ACTOR)) {
+									long actorId = currentObj.getId();
+									Avatar ava = actorList.get(actorId);
+									if(ava == null) {
+										ava = new Avatar(actorId);
+										actorList.put(actorId, ava);
+									}
+									ava.setGraphicName(topItem);
+									ava.updateLocation(coord);
+									displayList.add(ava);
+								} else {
+									Item newItem = new Item();
+									newItem.setImage(topItem);
+									newItem.setDisplayPos(coord);
+									displayList.add(newItem);
+								}
+							}
 						}
 					}
 				}

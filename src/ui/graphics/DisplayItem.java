@@ -17,6 +17,7 @@ public abstract class DisplayItem {
 	protected Coordinate coords;
 	protected int displayX;
 	protected int displayY;
+	private int type;
 	
 	public DisplayItem() {
 		

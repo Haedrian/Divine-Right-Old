@@ -20,4 +20,9 @@ public class UIConstants {
 	 * The offset that is applied to the y display coordinate for z levels other than 0.
 	 */
 	public static final int Z_LEVEL_OFFSET = TILE_HEIGHT * 2;
+	
+	
+	public static final int TYPE_TILE = 0;
+	public static final int TYPE_ITEM = 1;
+	public static final int TYPE_ACTOR = 2;
 }

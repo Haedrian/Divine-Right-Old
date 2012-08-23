@@ -6,6 +6,7 @@ import objects.common.GUIObject;
 import objects.common.MapItem;
 import objects.common.Tile;
 import objects.common.enums.MapItemType;
+import objects.common.enums.MapObjectGroupType;
 import objects.common.enums.PhysicalActionType;
 import objects.common.exceptions.ItemNotFoundException;
 import objects.common.messages.Message;
@@ -85,6 +86,7 @@ public class LocalMapManager
     		ret.setDescription(tile.getName());
     		ret.setId(-1);
     		ret.setTopItemType(tile.getItemType());
+    		ret.setTopItemGroup(new ArrayList<MapObjectGroupType>());
     	}
     	else 
     	{
@@ -92,6 +94,7 @@ public class LocalMapManager
     		ret.setDescription(top.getName());
     		ret.setId(top.getLocalId());
     		ret.setTopItemType(top.getItemType());
+    		ret.setTopItemGroup(top.getTypeGroups());
     	}
     	
     	//get the list of map items upon the tile

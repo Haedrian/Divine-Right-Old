@@ -1,8 +1,11 @@
 package managers;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
 import factory.ItemFactory;
@@ -15,6 +18,7 @@ import objects.common.MapItem;
 import objects.common.Party;
 import objects.common.Tile;
 import objects.common.enums.MapItemType;
+import objects.common.enums.MapObjectGroupType;
 import objects.common.enums.PhysicalActionType;
 import objects.common.exceptions.ItemNotFoundException;
 import objects.common.messages.Message;
@@ -57,6 +61,7 @@ public class GlobalMapManager
     		ret.setDescription(tile.getName());
     		ret.setId(-1);
     		ret.setTopItemType(tile.getItemType());
+    		ret.setTopItemGroup(new ArrayList<MapObjectGroupType>());
     	}
     	else 
     	{
@@ -64,6 +69,7 @@ public class GlobalMapManager
     		ret.setDescription(top.getName());
     		ret.setId(top.getLocalId());
     		ret.setTopItemType(top.getItemType());
+    		ret.setTopItemGroup(top.getTypeGroups());
     	}
     	
     	//get the list of map items upon the tile

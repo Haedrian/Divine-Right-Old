@@ -1,5 +1,8 @@
 package ui.elements;
 
+import objects.common.enums.MessageType;
+import objects.common.messages.Message;
+
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 
@@ -13,17 +16,29 @@ public class GUI {
 	
 	private static GUI instance;
 	
+	private WidgetLogMessageBox messageLog;
+	
 	private GuiWidget rootNode;
 	private GuiWidget focusWidget;
 	private MoveableGuiWidget foregroundWidget;
 	private boolean mouseInside;
 	
+	private GUI() {
+	}
+	
 	/**
-	 * Initialized the GUI, building up the elements
+	 * Initialize all of the GUI's elements.
+	 * @param gc
 	 */
-	public GUI() {
+	public void init(GameContainer gc) {
 		rootNode = new GuiWidget();
-
+		rootNode.setSize(gc.getWidth(), gc.getHeight());
+		rootNode.show();
+		
+		messageLog = new WidgetLogMessageBox(gc);
+		messageLog.setPosition(5, gc.getHeight() - messageLog.getHeight() - 5);
+		messageLog.show();
+		rootNode.addChild(messageLog);
 	}
 	
 	/**
@@ -185,6 +200,27 @@ public class GUI {
 		return mouseInside;
 	}
 	
+	/**
+	 * Adds the message to the requested message renderer widget.
+	 * @param message
+	 */
+	public void addMessage(Message message) {
+		MessageType mt = message.getType();
+		switch(mt) {
+		case EMPTY:
+			return;
+		case TOAST:
+			break;
+		case LOG:
+			messageLog.addMessage(message);
+			break;
+		case MODAL:
+			break;
+		case CHOICE:
+			break;
+		}
+	}
+	
 	private boolean isInside(int mouseX, int mouseY) {
 		GuiWidget widget = rootNode.getWidgetAt(mouseX, mouseY);
 		if(widget == rootNode || widget == null) {
@@ -192,5 +228,5 @@ public class GUI {
 		}
 		return true;
 	}
-	
+
 }

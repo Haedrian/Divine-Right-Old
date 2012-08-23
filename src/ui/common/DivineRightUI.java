@@ -1,8 +1,10 @@
 package ui.common;
 
+import objects.common.enums.MessageType;
+import objects.common.messages.Message;
+
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.BasicGame;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
@@ -25,7 +27,7 @@ public class DivineRightUI extends BasicGame {
 	private MapDisplay mapDisplay;
 	private GUI gui;
 	
-	public DivineRightUI() {
+	private DivineRightUI() {
 		super(WINDOW_TITLE);
 	}
 	
@@ -50,7 +52,8 @@ public class DivineRightUI extends BasicGame {
 		gc.getInput().enableKeyRepeat();
 		camera = new Camera(gc.getWidth(), gc.getHeight());
 		mapDisplay = new MapDisplay(this);
-		gui = new GUI();
+		gui = GUI.getInstance();
+		gui.init(gc);
 	}
 
 	/**
@@ -66,6 +69,9 @@ public class DivineRightUI extends BasicGame {
 	 */
 	@Override
 	public void keyReleased(int keyCode, char unicode) {
+		if(keyCode == Input.KEY_SPACE) {
+			gui.addMessage(new Message(MessageType.LOG, "You pressed the space key."));
+		}
 		if(gui.keyReleased(keyCode, unicode)) {
 			return;
 		}
@@ -105,8 +111,6 @@ public class DivineRightUI extends BasicGame {
 	 */
 	@Override
 	public void render(GameContainer gc, Graphics g) throws SlickException {
-		g.setColor(Color.lightGray);
-		g.fillRect(0, 0, gc.getWidth(), gc.getHeight());
 		mapDisplay.render(gc, g);
 		gui.render(gc, g);
 	}

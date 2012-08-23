@@ -32,7 +32,7 @@ public class Camera {
 		width = newWidth;
 		height = newHeight;
 		tilesOnScreenX = (int) Math.ceil(width / UIConstants.TILE_WIDTH) + 1;
-		tilesOnScreenY = (int) Math.ceil(height / UIConstants.TILE_HEIGHT);
+		tilesOnScreenY = (int) Math.ceil(height / UIConstants.TILE_HEIGHT) + 1;
 		levelsOnScreen = (int) Math.ceil(height / UIConstants.Z_LEVEL_OFFSET) / 2;
 		viewport = new Viewport();
 		recalculateViewport();
